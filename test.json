@@ -1,0 +1,90 @@
+[
+    {
+        address_components: [
+            {
+                long_name: "1",
+                short_name: "1",
+                types: [
+                    "street_number"
+                ]
+            },
+            {
+                long_name: "Jalan Jati I",
+                short_name: "Jl. Jati I",
+                types: [
+                    "route"
+                ]
+            },
+            {
+                long_name: "Sepang Jaya",
+                short_name: "Sepang Jaya",
+                types: [
+                    "administrative_area_level_4",
+                    "political"
+                ]
+            },
+            {
+                long_name: "Kecamatan Kedaton",
+                short_name: "Kec. Kedaton",
+                types: [
+                    "administrative_area_level_3",
+                    "political"
+                ]
+            },
+            {
+                long_name: "Kota Bandar Lampung",
+                short_name: "Kota Bandar Lampung",
+                types: [
+                    "administrative_area_level_2",
+                    "political"
+                ]
+            },
+            {
+                long_name: "Lampung",
+                short_name: "Lampung",
+                types: [
+                    "administrative_area_level_1",
+                    "political"
+                ]
+            },
+            {
+                long_name: "Indonesia",
+                short_name: "ID",
+                types: [
+                    "country",
+                    "political"
+                ]
+            },
+            {
+                long_name: "35132",
+                short_name: "35132",
+                types: [
+                    "postal_code"
+                ]
+            }
+        ],
+        adr_address: "&lt;span class=\&quot;street-address\&quot;&gt;Jl. Jati I No.1&lt;/span&gt;, &lt;span class=\&quot;extended-address\&quot;&gt;Sepang Jaya, Kec. Kedaton&lt;/span&gt;, &lt;span class=\&quot;locality\&quot;&gt;Kota Bandar Lampung&lt;/span&gt;, &lt;span class=\&quot;region\&quot;&gt;Lampung&lt;/span&gt; &lt;span class=\&quot;postal-code\&quot;&gt;35132&lt;/span&gt;, &lt;span class=\&quot;country-name\&quot;&gt;Indonesia&lt;/span&gt;",
+        formatted_address: "Jl. Jati I No.1, Sepang Jaya, Kec. Kedaton, Kota Bandar Lampung, Lampung 35132, Indonesia",
+        geometry: {
+            location: {
+                ...
+            },
+            viewport: {
+                ...
+            }
+        },
+        html_attributions: [],
+        icon: "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/geocode-71.png",
+        icon_background_color: "#7B9EB0",
+        icon_mask_base_uri: "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+        name: "Jl. Jati I No.1",
+        place_id: "ChIJJeSTlCjbQC4RSVRMtgqacoI",
+        reference: "ChIJJeSTlCjbQC4RSVRMtgqacoI",
+        types: [
+            "premise"
+        ],
+        url: "https://maps.google.com/?q=Jl.+Jati+I+No.1,+Sepang+Jaya,+Kec.+Kedaton,+Kota+Bandar+Lampung,+Lampung+35132,+Indonesia&amp;ftid=0x2e40db289493e425:0x82729a0ab64c5449",
+        utc_offset: 420,
+        utc_offset_minutes: 420
+    }
+]
