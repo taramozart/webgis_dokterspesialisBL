@@ -14,9 +14,9 @@ class StatusPengajuanSeeder extends Seeder
     public function run(): void
     {
         $data_status_pengajuan = [
-            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Sedang Diproses'],
-            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Ditolak'],
-            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Diterima'],
+            ['id' => 1, 'keterangan' => 'Sedang Diproses'],
+            ['id' => 2, 'keterangan' => 'Ditolak'],
+            ['id' => 3, 'keterangan' => 'Diterima'],
         ];
 
         DB::table('status_pengajuan')->insert($data_status_pengajuan);

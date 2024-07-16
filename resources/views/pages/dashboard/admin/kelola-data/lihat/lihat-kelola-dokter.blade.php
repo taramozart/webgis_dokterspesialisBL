@@ -50,10 +50,7 @@
                             </div>
                             <div class="flex justify-between gap-10 text-black">
                                 <div class="w-[50%]">
-                                    <svg class="w-full h-full" viewBox="0 0 416 229" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0 0H416V229H0V0Z" fill="#D9D9D9" />
-                                    </svg>
+                                    <img src="{{url(asset('storage/'.$data['gambar']))}}" alt="">
                                 </div>
                                 <div class="w-[50%]">
                                     <div class="relative overflow-x-auto overflow-y-auto shadow-sm sm:rounded-lg mt-5">
@@ -64,7 +61,7 @@
                                                         Nama Dokter
                                                     </td>
                                                     <td class="px-5 py-2 border-b border-[#D9D9D9]">
-                                                        Dr. Ariella
+                                                        {{ $data['nama'] }}
                                                     </td>
                                                 </tr>
                                                 <tr class="bg-white hover:bg-[#84A584] text-black hover:text-white">
@@ -72,7 +69,7 @@
                                                         No.SIP
                                                     </td>
                                                     <td class="px-5 py-2 border-b border-[#D9D9D9]">
-                                                        11/22/3333/111
+                                                        {{ $data['nomor_sip']}}
                                                     </td>
                                                 </tr>
                                                 <tr class="bg-white hover:bg-[#84A584] text-black hover:text-white">
@@ -80,7 +77,7 @@
                                                         Spesialisasi
                                                     </td>
                                                     <td class="px-5 py-2 border-b border-[#D9D9D9]">
-                                                        Spesialis Orthopedi
+                                                        {{$data['bidang_spesialisasis']['keterangan']}}
                                                     </td>
                                                 </tr>
                                                 <tr class="bg-white hover:bg-[#84A584] text-black hover:text-white">
@@ -88,7 +85,7 @@
                                                         Nomor Kontak
                                                     </td>
                                                     <td class="px-5 py-2 border-b border-[#D9D9D9]">
-                                                        123456789
+                                                        {{$data['nomor_kontak']}}
                                                     </td>
                                                 </tr>
                                                 <tr class="bg-white hover:bg-[#84A584] text-black hover:text-white">
@@ -96,7 +93,7 @@
                                                         Jadwal Praktik
                                                     </td>
                                                     <td class="px-5 py-2 border-b border-[#D9D9D9]">
-                                                        123456789
+                                                        {{$data['jadwal']}}
                                                     </td>
                                                 </tr>
                                                 <tr class="bg-white hover:bg-[#84A584] text-black hover:text-white">
@@ -104,7 +101,7 @@
                                                         Kecamatan
                                                     </td>
                                                     <td class="px-5 py-2 border-b border-[#D9D9D9]">
-                                                        Sukarame
+                                                        {{$data['kecamatans']['keterangan']}}
                                                     </td>
                                                 </tr>
                                                 <tr class="bg-white hover:bg-[#84A584] text-black hover:text-white">
@@ -112,8 +109,7 @@
                                                         Alamat
                                                     </td>
                                                     <td class="px-5 py-2 border-b border-[#D9D9D9]">
-                                                        Jalan nangka 1 no 3 Kec.
-                                                        Sukarame Bandar Lampung
+                                                        {{$data['alamat']}}
                                                     </td>
                                                 </tr>
                                             </tbody>

@@ -14,9 +14,9 @@ class JenisPengajuanSeeder extends Seeder
     public function run(): void
     {
         $data_jenis_pengajuan = [
-            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Pengajuan Data Baru'],
-            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Pengajuan Perubahan Data'],
-            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Pengajuan Penghapusan Lokasi'],
+            ['id' => 1, 'keterangan' => 'Pengajuan Data Baru'],
+            ['id' => 2, 'keterangan' => 'Pengajuan Perubahan Data'],
+            ['id' => 3, 'keterangan' => 'Pengajuan Penghapusan Lokasi'],
         ];
 
         DB::table('jenis_pengajuan')->insert($data_jenis_pengajuan);

@@ -14,9 +14,9 @@ class RolesSeeder extends Seeder
     public function run(): void
     {
         $data_roles = [
-            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Admin'],
-            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Dokter'],
-            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Pengguna'],
+            ['id' => 1, 'keterangan' => 'Admin'],
+            ['id' => 2, 'keterangan' => 'Dokter'],
+            ['id' => 3, 'keterangan' => 'Pengguna'],
         ];
 
         DB::table('roles')->insert($data_roles);

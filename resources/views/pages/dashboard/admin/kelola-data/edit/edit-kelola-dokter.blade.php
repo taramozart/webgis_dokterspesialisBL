@@ -20,9 +20,9 @@
             @php
             @endphp
             <div class="w-[40%]">
-                <form action="{{ route('data-baru-dokter-post') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('kelola-data-dokter-edit-post', ['id' => $data['id']]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <div class="text-black text-[26px] font-bold mb-5">Tambah Data Lokasi</div>
+                    <div class="text-black text-[26px] font-bold mb-5">Edit Data Lokasi</div>
                     <div class="w-full mb-1">
                         <label htmlFor="name" class="text-black font-bold">Nama Dokter</label>
                         <input type="text" id="name" name="nama" value="{{ $data['nama'] }}"
@@ -58,7 +58,7 @@
                         <label htmlFor="name" class="text-black font-bold">Nomor Kontak</label>
                         <input type="text" id="name" name="nomor_kontak" value="{{ $data['nomor_kontak'] }}"
                             class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
-                            placeholder="Masukkan Nomor Kontak" required />
+                            placeholder="Masukkan Nomor Kontak"/>
                         @error('nomor_kontak')
                             <span class="text-red-500">{{ $message }}</span>
                         @enderror

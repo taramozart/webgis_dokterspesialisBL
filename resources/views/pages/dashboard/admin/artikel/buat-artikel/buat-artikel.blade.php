@@ -26,14 +26,14 @@
                     <div class="flex justify-between gap-5 mt-5">
                         <div class="w-[60%] mb-4">
                             <label htmlFor="name" class="text-black">Subtittle</label>
-                            <input type="text" id="name"
+                            <input type="text" id="name" name="judul"
                                 class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 w-full"
                                 placeholder="Masukkan Judul Artikel Anda" required />
                         </div>
                         <div class="w-[40%] mb-4">
                             <label htmlFor="image" class="text-sm mb-1 block text-black">Gambar</label>
                             <div class="relative">
-                                <input type="file" id="image" accept="image/*" class="hidden" required
+                                <input type="file" id="image" name="gambar" accept="image/*" class="hidden" required
                                     onchange="displayFileName()" />
                                 <label for="image"
                                     class="cursor-pointer bg-[#6C806C] text-white py-2 px-4 rounded-lg inline-block font-bold">
@@ -58,7 +58,7 @@
                     <div class="div">
                         <div class="w-full mb-4">
                             <label htmlFor="name" class="text-black">Deskripsi Artikel</label>
-                            <textarea id="message" rows="4"
+                            <textarea id="message" rows="4" name="deskripsi"
                                 class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 w-full h-[300px]"
                                 placeholder="Masukkan Deskripsi"></textarea>
                         </div>
@@ -66,24 +66,24 @@
                     <div class="flex justify-between gap-5 mt-5">
                         <div class="mb-4 w-full">
                             <label htmlFor="name" class="text-black">Sumber Artikel</label>
-                            <input type="text" id="name"
+                            <input type="text" id="name" name="sumber"
                                 class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 w-full"
                                 placeholder="Masukkan Penulis Artikel" required />
                         </div>
                         <div class="mb-4 w-full">
                             <label htmlFor="name" class="text-black">Penulis Artikel</label>
-                            <input type="text" id="name"
+                            <input type="text" id="name" name="penulis"
                                 class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 w-full"
                                 placeholder="Masukkan Penulis Artikel" required />
                         </div>
                     </div>
                     <div class="mb-4 flex mt-5 justify-end">
-                        <a href="">
+                        <button type="submit">
                             <div
                                 class="w-[145px] text-center m-auto cursor-pointer bg-[#6C806C] text-white py-2 px-4 rounded-lg inline-block font-bold">
                                 Publish
                             </div>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>

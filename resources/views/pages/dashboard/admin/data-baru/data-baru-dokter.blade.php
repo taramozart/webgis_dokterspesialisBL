@@ -57,7 +57,7 @@
                         <label htmlFor="name" class="text-black font-bold">Nomor Kontak</label>
                         <input type="text" id="name" name="nomor_kontak"
                             class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
-                            placeholder="Masukkan Nomor Kontak" required />
+                            placeholder="Masukkan Nomor Kontak" />
                         @error('nomor_kontak')
                             <span class="text-red-500">{{ $message }}</span>
                         @enderror

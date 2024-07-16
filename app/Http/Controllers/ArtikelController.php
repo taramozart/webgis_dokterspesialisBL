@@ -21,38 +21,27 @@ class ArtikelController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
+            return back()->withInput()->withErrors($validator->messages());
         }
+            
 
-        try {
+            // $data_artikel = new artikel();
+            // $data_artikel->judul = request('judul');
+            // $data_artikel->deskripsi = request('deskripsi');
+            // $data_artikel->sumber = request('sumber');
+            // $data_artikel->penulis = request('penulis');
+            // $data_artikel->save();
+            // $id = $data_artikel->id;
+            // $data_artikel->gambar = request('gambar')->store("artikel/$id");
+            // $data_artikel->update();
 
-            $data_artikel = new artikel();
-            $data_artikel->judul = request('judul');
-            $data_artikel->deskripsi = request('deskripsi');
-            $data_artikel->sumber = request('sumber');
-            $data_artikel->penulis = request('penulis');
-            $data_artikel->save();
-            $id = $data_artikel->id;
-            $data_artikel->gambar = request('gambar')->store("artikel/$id");
-            $data_artikel->update();
+            // $response = [
+            //     'status' => 200,
+            //     'data' => $data_artikel,
+            //     'message' => 'Berhasil menambahkan data artikel'
+            // ];
+            // return response()->json($response, 200);
 
-            $response = [
-                'status' => 200,
-                'data' => $data_artikel,
-                'message' => 'Berhasil menambahkan data artikel'
-            ];
-            return response()->json($response, 200);
-
-        } catch (\Exception $e) {
-            $response = [
-                'status' => 400,
-                'message' => $e->getMessage()
-            ];
-            return response()->json($response, 400);
-        }
     }
 
     public function get_all_artikel()

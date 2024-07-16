@@ -34,7 +34,7 @@
                             <form action="">
                                 <input type="text" id="simple-search" name="search"
                                     class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-[231px]"
-                                    placeholder="Search..." value="{{ request()->query('search') }}"/>
+                                    placeholder="Search..." value="{{ request()->query('search') }}" />
                             </form>
                         </div>
                     </div>
@@ -61,21 +61,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $index => $data)
+                            @foreach ($data['data'] as $index => $item)
                                 <tr
                                     class="bg-white border-b dark:bg-white dark:border-gray-700 border-gray-700 hover:bg-[#cbdccb] text-black hover:text-white">
                                     <td class="px-3 py-2">{{ $index + 1 }}</td>
-                                    <td class="px-3 py-2">{{ $data['nama'] }}</td>
-                                    <td class="px-3 py-2">{{ $data['bidang_spesialisasis']['keterangan'] }}</td>
-                                    <td class="px-3 py-2">{{ $data['nomor_kontak'] }}</td>
+                                    <td class="px-3 py-2">{{ $item['nama'] }}</td>
+                                    <td class="px-3 py-2">{{ $item['bidang_spesialisasis']['keterangan'] }}</td>
+                                    <td class="px-3 py-2">{{ $item['nomor_kontak'] }}</td>
                                     <td class="px-3 py-2">
                                         <div
                                             class="flex justify-items-center justify-center items-center m-auto text-center gap-4">
-                                            <a href="{{ route('kelola-data-dokter-lihat', ['id' => $data['id']]) }}" title="Lihat">
+                                            <a href="{{ route('kelola-data-dokter-lihat', ['id' => $item['id']]) }}"
+                                                title="Lihat">
                                                 <div class="flex justify-center items-center m-auto text-center">Lihat
                                                 </div>
                                             </a>
-                                            <a href="{{ route('kelola-data-dokter-edit', ['id' => $data['id']]) }}" title="Edit">
+                                            <a href="{{ route('kelola-data-dokter-edit', ['id' => $item['id']]) }}"
+                                                title="Edit">
                                                 <div class="flex justify-center items-center m-auto text-center">Edit
                                                 </div>
                                             </a>
@@ -136,47 +138,62 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="relative flex justify-end mt-5">
-                    <div class="">
-                        <nav aria-label="Page navigation example">
-                            <ul class="inline-flex -space-x-px text-sm gap-2">
-                                <li>
-                                    <a href="#"
-                                        class="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white rounded-lg hover:bg-[#4f634f] hover:text-white font-bold">
-                                        <svg width="11" height="18" viewBox="0 0 11 18" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.0492 1.08221L1.08169 8.88528L8.88477 16.8528"
-                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="flex items-center justify-center px-3 h-8 leading-tight text-black bg-[#84A584] rounded-lg hover:bg-[#4f634f] hover:text-white font-bold">1</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white rounded-lg hover:bg-[#4f634f] hover:text-white font-bold">2</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white rounded-lg hover:bg-[#4f634f] hover:text-white font-bold">3</a>
-                                </li>
-                                <li>
-                                    <a href="#"
-                                        class="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white rounded-lg hover:bg-[#4f634f] hover:text-white font-bold">
-                                        <svg width="11" height="17" viewBox="0 0 11 17" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1.17188 15.8857L9.05759 8L1.17188 0.114288" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                @if ($data['last_page'] > 1)
+                    <div class="relative flex justify-end mt-5">
+                        <div class="">
+                            @php
+                                dd($data['last_page']);
+                                $pages = $data['last_page'];
+                                $current = $data['current_page'];
+                                $min = 1;
+                                $max = $pages;
+                                if ($pages > 5) {
+                                    if ($current > 3) {
+                                        $min = $current - 2;
+                                        if ($current + 2 > $pages) {
+                                            $min = $pages - 4;
+                                        }
+                                        $max = $current + 2 > $pages ? $pages : $current + 2;
+                                    } else {
+                                        $max = 5;
+                                    }
+                                }
+                            @endphp
+                            <nav aria-label="Page navigation example">
+                                <ul class="inline-flex -space-x-px text-sm gap-2">
+                                    <li>
+                                        <a href="?page={{ $current - 1 }}"
+                                            class="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white rounded-lg hover:bg-[#4f634f] hover:text-white font-bold">
+                                            <svg width="11" height="18" viewBox="0 0 11 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9.0492 1.08221L1.08169 8.88528L8.88477 16.8528"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    @for ($i = $min; $i <= $max; $i++)
+                                        <li>
+                                            <a href="?page={{ $i }}"
+                                                class="flex items-center justify-center px-3 h-8 leading-tight text-black bg-[#84A584] rounded-lg hover:bg-[#4f634f] hover:text-white font-bold">{{ $i }}</a>
+                                        </li>
+                                    @endfor
+                                    <li>
+                                        <a href="?page={{ $current + 1 }}"
+                                            class="flex items-center justify-center px-3 h-8 leading-tight text-black bg-white rounded-lg hover:bg-[#4f634f] hover:text-white font-bold">
+                                            <svg width="11" height="17" viewBox="0 0 11 17" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1.17188 15.8857L9.05759 8L1.17188 0.114288"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>

@@ -58,7 +58,7 @@ class GeneralPage extends Controller
         return view('pages/dashboard/admin/kelola-data/edit/edit-kelola-dokter');
     }
     function keloladatadokterLihat () {
-        return view('pages/dashboard/admin/kelola-data/edit/edit-kelola-dokter');
+        return view('pages/dashboard/admin/kelola-data/lihat/lihat-kelola-dokter');
     }
 
 
