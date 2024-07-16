@@ -31,9 +31,11 @@
                     <div class="text-[30px] font-bold">Kelola Data Dokter</div>
                     <div class="flex justify-end text-center items-center">
                         <div class="relative w-full text-start">
-                            <input type="text" id="simple-search"
-                                class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-[231px]"
-                                placeholder="Search..." required />
+                            <form action="">
+                                <input type="text" id="simple-search" name="search"
+                                    class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-[231px]"
+                                    placeholder="Search..." value="{{ request()->query('search') }}"/>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -59,20 +61,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $dummyData = [
-                                [
-                                    'nama_dokter' => 'Dr. John Doe',
-                                    'spesialisasi' => 'Dokter Umum',
-                                    'nomor_kontak' => '08123456789',
-                                ],
-                                [
-                                    'nama_dokter' => 'Dr. Jane Smith',
-                                    'spesialisasi' => 'Dokter Gigi',
-                                    'nomor_kontak' => '087654321',
-                                ],
-                            ];
-                            ?>
                             @foreach ($data as $index => $data)
                                 <tr
                                     class="bg-white border-b dark:bg-white dark:border-gray-700 border-gray-700 hover:bg-[#cbdccb] text-black hover:text-white">
@@ -83,7 +71,7 @@
                                     <td class="px-3 py-2">
                                         <div
                                             class="flex justify-items-center justify-center items-center m-auto text-center gap-4">
-                                            <a href="/kelola-data-dokter/lihat" title="Lihat">
+                                            <a href="{{ route('kelola-data-dokter-lihat', ['id' => $data['id']]) }}" title="Lihat">
                                                 <div class="flex justify-center items-center m-auto text-center">Lihat
                                                 </div>
                                             </a>

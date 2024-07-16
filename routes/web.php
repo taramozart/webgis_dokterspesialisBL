@@ -68,7 +68,7 @@ Route::controller(GeneralPage::class) -> group(function () {
 
     Route::get('/kelola-data-dokter', [DataDokterController::class, 'get_all_data_dokter']);
     // Route::get('/kelola-data-dokter/edit', 'keloladatadokterEdit');
-    Route::get('/kelola-data-dokter/lihat', 'keloladatadokterLihat')->name('kelola-data-dokter-lihat');
+    Route::get('/kelola-data-dokter/lihat', MapDokterEdit::class)->name('kelola-data-dokter-lihat');
 
     Route::get('/pengajuan-dokter', 'pengajuandokter');
     Route::get('/lihat-pengajuan-dokter-tambah', 'lihatpengajuandoktertambah');
