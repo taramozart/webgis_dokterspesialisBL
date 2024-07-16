@@ -28,12 +28,12 @@ class GeneralPage extends Controller
     function buatartikel () {
         return view('pages/dashboard/admin/artikel/buat-artikel/buat-artikel');
     }
-    function lihatartikel () {
-        return view('pages/dashboard/admin/artikel/lihat-artikel/lihat-artikel');
-    }
-     function editartikel () {
-         return view('pages/dashboard/admin/artikel/edit-artikel/edit-artikel');
-     }
+    // function lihatartikel () {
+    //     return view('pages/dashboard/admin/artikel/lihat-artikel/lihat-artikel');
+    // }
+    // function editartikel () {
+    //     return view('pages/dashboard/admin/artikel/edit-artikel/edit-artikel');
+    // }
 
     // function databarudokter () {
     //     return view('pages/dashboard/admin/data-baru/data-baru-dokter');
@@ -58,7 +58,7 @@ class GeneralPage extends Controller
         return view('pages/dashboard/admin/kelola-data/edit/edit-kelola-dokter');
     }
     function keloladatadokterLihat () {
-        return view('pages/dashboard/admin/kelola-data/lihat/lihat-kelola-dokter');
+        return view('pages/dashboard/admin/kelola-data/edit/edit-kelola-dokter');
     }
 
 
@@ -149,9 +149,6 @@ class GeneralPage extends Controller
 
     function ubahProfile () {
         return view('pages/landing-page/ubah-profile');
-    }
-    function ubahProfileUser () {
-        return view('pages/landing-page/ubah-profile-user');
     }
 
     function detailArtikel () {
