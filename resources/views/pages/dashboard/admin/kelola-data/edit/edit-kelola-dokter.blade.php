@@ -17,116 +17,138 @@
                     </div>
                 </div>
             </div>
+            @php
+            @endphp
             <div class="w-[40%]">
-                <div class="text-black text-[26px] font-bold mb-5">Edit Data Lokasi</div>
-                <div class="w-full mb-1">
-                    <label htmlFor="name" class="text-black font-bold">Nama Dokter</label>
-                    <input type="text" id="name"
-                        class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
-                        placeholder="Masukkan Nama" required />
-                </div>
-                <div class="w-full mb-1">
-                    <label htmlFor="name" class="text-black font-bold">No.SIP</label>
-                    <input type="text" id="name"
-                        class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
-                        placeholder="Masukkan No. SIP" required />
-                </div>
-                <div class="w-full mb-1">
-                    <label htmlFor="name" class="text-black font-bold">Bidang Spesialisasi</label>
-                    <select id="name"
-                        class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full h-[40px] bg-transparent"
-                        required>
-                        <option value="">Pilih Bidang Spesialisasi</option>
-                        <option value="anak">Anak</option>
-                        <option value="penyakit dalam">Penyakit Dalam</option>
-                    </select>
-                </div>
-                <div class="w-full mb-1">
-                    <label htmlFor="name" class="text-black font-bold">Nomor Kontak</label>
-                    <input type="text" id="name"
-                        class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
-                        placeholder="Masukkan Nomor Kontak" required />
-                </div>
-                <div class="w-full mb-1">
-                    <label htmlFor="name" class="text-black font-bold">Jadwal Praktik</label>
-                    <input type="text" id="name"
-                        class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
-                        placeholder="Masukkan Jadwal Praktik" required />
-                </div>
-                <div class="w-full mb-1">
-                    <label for="kecamatan" class="text-black font-bold">Kecamatan</label>
-                    <select id="kecamatan" name="kecamatan"
-                        class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full h-[40px] bg-transparent"
-                        required>
-                        <option value="">Pilih Kecamatan</option>
-                        <option value="Bandar Lampung">Bandar Lampung</option>
-                        <option value="Rajabasa">Rajabasa</option>
-                        <option value="Tanjung Karang Pusat">Tanjung Karang Pusat</option>
-                        <option value="Tanjung Karang Timur">Tanjung Karang Timur</option>
-                        <option value="Tanjung Karang Barat">Tanjung Karang Barat</option>
-                        <option value="Tanjung Senang">Tanjung Senang</option>
-                        <option value="Tanjung Karang Timur Kota">Tanjung Karang Timur Kota</option>
-                        <option value="Tanjung Karang Barat Kota">Tanjung Karang Barat Kota</option>
-                        <option value="Kedamaian">Kedamaian</option>
-                        <option value="Teluk Betung Utara">Teluk Betung Utara</option>
-                        <option value="Teluk Betung Selatan">Teluk Betung Selatan</option>
-                        <option value="Kemiling">Kemiling</option>
-                        <option value="Panjang">Panjang</option>
-                        <option value="Tanjung Karang Timur Kota">Tanjung Karang Timur Kota</option>
-                        <option value="Tanjung Karang Barat Kota">Tanjung Karang Barat Kota</option>
-                    </select>
-                </div>
-                <div class="w-full mb-1 flex flex-col">
-                    <label for="name" class="text-black font-bold mb-1">Alamat</label>
-                    <textarea id="message" rows="4"
-                        class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full h-[70px] bg-transparent"
-                        placeholder="Masukkan Alamat"></textarea>
-                </div>
-                <div class="flex justify-between gap-2 mb-1">
-                    <div class="w-full">
-                        <label htmlFor="name"class="text-black font-bold">Latitude</label>
-                        <input type="number" id="name"
+                <form action="{{ route('data-baru-dokter-post') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="text-black text-[26px] font-bold mb-5">Tambah Data Lokasi</div>
+                    <div class="w-full mb-1">
+                        <label htmlFor="name" class="text-black font-bold">Nama Dokter</label>
+                        <input type="text" id="name" name="nama" value="{{ $data['nama'] }}"
                             class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
-                            placeholder="Masukkan Latitude" required />
+                            placeholder="Masukkan Nama" required />
+                        @error('nama')
+                            <span class="text-red-500">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <div class="w-full">
-                        <label htmlFor="name" class="text-black font-bold">Longitude</label>
-                        <input type="number" id="name"
+                    <div class="w-full mb-1">
+                        <label htmlFor="name" class="text-black font-bold">No. SIP</label>
+                        <input type="text" id="name" name="nomor_sip"
                             class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
-                            placeholder="Masukkan Longitude" required />
+                            placeholder="Masukkan No. SIP" required value="{{ $data['nomor_sip'] }}" />
+                        @error('nomor_sip')
+                            <span class="text-red-500">{{ $message }}</span>
+                        @enderror
                     </div>
-                </div>
-                <div class="w-full mb-1">
-                    <label htmlFor="image" class="mb-1 text-black font-bold">Gambar</label>
-                    <div class="relative">
-                        <input type="file" id="image" accept="image/*" class="hidden" required
-                            onchange="displayFileName()" />
-                        <label for="image"
-                            class="cursor-pointer bg-[#6C806C] text-white py-2 px-4 rounded-lg inline-block font-bold">
-                            Unggah Gambar
-                        </label>
-                        <span id="file-name" class="text-[#8F8F8F] text-sm ml-2">Tidak ada gambar.</span>
+                    <div class="w-full mb-1">
+                        <label htmlFor="name" class="text-black font-bold">Bidang Spesialisasi</label>
+                        <select id="name" name="bidang_spesialisasi" value="{{ $data['bidang_spesialisasi'] }}"
+                            class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full h-[40px] bg-transparent"
+                            required>
+                            @foreach ($spesialisasi as $s)
+                                <option value="{{ $s->id }}"> {{ $s->keterangan }} </option>
+                            @endforeach
+                        </select>
+                        @error('bidang_spesialisasi')
+                            <span class="text-red-500">{{ $message }}</span>
+                        @enderror
                     </div>
-                    <script>
-                        function displayFileName() {
-                            const fileInput = document.getElementById('image');
-                            const fileNameSpan = document.getElementById('file-name');
-                            if (fileInput.files.length > 0) {
-                                fileNameSpan.textContent = fileInput.files[0].name;
-                            } else {
-                                fileNameSpan.textContent = 'Tidak ada gambar.';
-                            }
-                        }
-                    </script>
-                </div>
-                <div class="mb-4 flex mt-5 m-auto justify-end">
-                    <a href="">
-                        <div
-                            class="w-[145px] font-bold text-center m-auto cursor-pointer bg-[#6C806C] text-white py-2 px-4 rounded-lg inline-block">
-                            Simpan
+                    <div class="w-full mb-1">
+                        <label htmlFor="name" class="text-black font-bold">Nomor Kontak</label>
+                        <input type="text" id="name" name="nomor_kontak" value="{{ $data['nomor_kontak'] }}"
+                            class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
+                            placeholder="Masukkan Nomor Kontak" required />
+                        @error('nomor_kontak')
+                            <span class="text-red-500">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="w-full mb-1">
+                        <label htmlFor="name" class="text-black font-bold">Jadwal Praktik</label>
+                        <input type="text" id="name" name="jadwal" value="{{ $data['jadwal'] }}"
+                            class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
+                            placeholder="Masukkan Jadwal Praktik" required />
+                        @error('jadwal')
+                            <span class="text-red-500">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="w-full mb-1">
+                        <label for="kecamatan" class="text-black font-bold">Kecamatan</label>
+                        <select id="kecamatan" name="kecamatan" value="{{ $data['kecamatan'] }}"
+                            class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full h-[40px] bg-transparent"
+                            required>
+                            @foreach ($kecamatan as $k)
+                                <option value="{{ $k->id }}"> {{ $k->keterangan }} </option>
+                            @endforeach
+                        </select>
+                        @error('kecamatan')
+                            <span class="text-red-500">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="w-full mb-1 flex flex-col">
+                        <label for="name" class="text-black font-bold mb-1">Alamat</label>
+                        <textarea id="message" rows="4" name="alamat"
+                            class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full h-[70px] bg-transparent"
+                            placeholder="Masukkan Alamat">{{ $data['alamat'] }}</textarea>
+                        @error('alamat')
+                            <span class="text-red-500">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="flex justify-between gap-2 mb-1">
+                        <div class="w-full">
+                            <label htmlFor="name" class="text-black font-bold">Latitude</label>
+                            <input type="text" id="name" name="latitude" value="{{ $data['latitude'] }}"
+                                class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
+                                placeholder="Masukkan Latitude" wire:model="latitude" />
+                            @error('latitude')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
                         </div>
-                    </a>
-                </div>
+                        <div class="w-full">
+                            <label htmlFor="name" class="text-black font-bold">Longitude</label>
+                            <input type="text" id="name" name="longitude" value="{{ $data['longitude'] }}"
+                                class="border border-[#84A584] text-gray-900 text-sm rounded-md focus:ring-[#84A584] focus:border-[#84A584] px-2 w-full bg-transparent"
+                                placeholder="Masukkan Longitude" wire:model="longitude" />
+                            @error('longitude')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="w-full mb-1">
+                        <label htmlFor="image" class="mb-1 text-black font-bold">Gambar</label>
+                        <div class="relative">
+                            <input type="file" id="image" accept="image/*" class="hidden" required
+                                onchange="displayFileName()" name="gambar" />
+                            <label for="image"
+                                class="cursor-pointer bg-[#6C806C] text-white py-2 px-4 rounded-lg inline-block font-bold">
+                                Unggah Gambar
+                            </label>
+                            <span id="file-name" class="text-[#8F8F8F] text-sm ml-2">Tidak ada gambar.</span>
+                            @error('gambar')
+                            <span class="text-red-500">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <script>
+                            function displayFileName() {
+                                const fileInput = document.getElementById('image');
+                                const fileNameSpan = document.getElementById('file-name');
+                                if (fileInput.files.length > 0) {
+                                    fileNameSpan.textContent = fileInput.files[0].name;
+                                } else {
+                                    fileNameSpan.textContent = 'Tidak ada gambar.';
+                                }
+                            }
+                        </script>
+                    </div>
+                    <div class="mb-4 flex mt-5 m-auto justify-end">
+                        <button type="submit">
+                            <div
+                                class="w-[145px] font-bold text-center m-auto cursor-pointer bg-[#6C806C] text-white py-2 px-4 rounded-lg inline-block">
+                                Simpan
+                            </div>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

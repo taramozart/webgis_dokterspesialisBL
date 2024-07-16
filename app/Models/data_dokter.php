@@ -27,7 +27,7 @@ class data_dokter extends Model
         'kecamatan',
         'alamat',
         'latitude',
-        'longtitude',
+        'longitude',
         'gambar',
     ];
 

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignUuid('kecamatan')->references('id')->on('wilayah');
             $table->string('alamat');
             $table->string('latitude');
-            $table->string('longtitude');
+            $table->string('longitude');
             $table->string('gambar')->nullable();
             $table->timestamps();
         });

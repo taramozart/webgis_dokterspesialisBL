@@ -73,12 +73,12 @@
                                 ],
                             ];
                             ?>
-                            @foreach ($dummyData as $index => $data)
+                            @foreach ($data as $index => $data)
                                 <tr
                                     class="bg-white border-b dark:bg-white dark:border-gray-700 border-gray-700 hover:bg-[#cbdccb] text-black hover:text-white">
                                     <td class="px-3 py-2">{{ $index + 1 }}</td>
-                                    <td class="px-3 py-2">{{ $data['nama_dokter'] }}</td>
-                                    <td class="px-3 py-2">{{ $data['spesialisasi'] }}</td>
+                                    <td class="px-3 py-2">{{ $data['nama'] }}</td>
+                                    <td class="px-3 py-2">{{ $data['bidang_spesialisasis']['keterangan'] }}</td>
                                     <td class="px-3 py-2">{{ $data['nomor_kontak'] }}</td>
                                     <td class="px-3 py-2">
                                         <div
@@ -87,7 +87,7 @@
                                                 <div class="flex justify-center items-center m-auto text-center">Lihat
                                                 </div>
                                             </a>
-                                            <a href="/kelola-data-dokter/edit" title="Edit">
+                                            <a href="{{ route('kelola-data-dokter-edit', ['id' => $data['id']]) }}" title="Edit">
                                                 <div class="flex justify-center items-center m-auto text-center">Edit
                                                 </div>
                                             </a>
@@ -103,7 +103,6 @@
                                                     </svg>
                                                 </button>
                                             </div>
-                                            <?php endforeach; ?>
                                             <!-- Modal -->
                                             <div id="popup-modal-0" tabindex="-1" aria-hidden="true"
                                                 class="z-50 hidden fixed top-0 right-0 left-[260px] bottom-0 flex items-center justify-center backdrop-blur-sm bg-opacity-50">
@@ -145,6 +144,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

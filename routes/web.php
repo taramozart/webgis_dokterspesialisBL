@@ -31,7 +31,7 @@ Route::get('/', MapHome::class);
 Route::get('/data-baru-dokter', MapAdminDataBaru::class);
 Route::post('/data-baru-dokter', [DataDokterController::class, 'create_data_dokter'] )->name('data-baru-dokter-post');
 // Route::get('/kelola-data-dokter/lihat', MapDokterLihat::class);
-Route::get('/kelola-data-dokter/edit', MapDokterEdit::class);
+Route::get('/kelola-data-dokter/edit', MapDokterEdit::class)->name('kelola-data-dokter-edit');
 // MAP BOX ROUTE
 
 // Route::get('/', function () {
@@ -66,10 +66,9 @@ Route::controller(GeneralPage::class) -> group(function () {
 
 
 
-    Route::get('/kelola-data-dokter', 'keloladatadokter');
+    Route::get('/kelola-data-dokter', [DataDokterController::class, 'get_all_data_dokter']);
     // Route::get('/kelola-data-dokter/edit', 'keloladatadokterEdit');
-    Route::get('/kelola-data-dokter/lihat', 'keloladatadokterLihat');
-
+    Route::get('/kelola-data-dokter/lihat', 'keloladatadokterLihat')->name('kelola-data-dokter-lihat');
 
     Route::get('/pengajuan-dokter', 'pengajuandokter');
     Route::get('/lihat-pengajuan-dokter-tambah', 'lihatpengajuandoktertambah');

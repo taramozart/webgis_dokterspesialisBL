@@ -35,12 +35,13 @@ class DataDokterController extends Controller
         $data = data_dokter::create([
             'nama' => $request->nama,
             'bidang_spesialisasi' => $request->bidang_spesialisasi,
+            'nomor_kontak' => $request->nomor_kontak,
             'nomor_sip' => $request->nomor_sip,
             'jadwal' => $request->jadwal,
             'kecamatan' => $request->kecamatan,
             'alamat' => $request->alamat,
             'latitude' => $request->latitude,
-            'longtitude' => $request->longitude,
+            'longitude' => $request->longitude,
         ]);
 
         $id = $data->id;
@@ -48,25 +49,19 @@ class DataDokterController extends Controller
         $data->update(['gambar' => $gambar]);
 
         return back()->with('success', 'Data Dokter Berhasil ditambahkan');
-
     }
+
 
     public function get_all_data_dokter()
     {
         if (request('search') != null && request('search_kecamatan') == null && request('search_spesialisasi') == null) {
-            $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->where('nama', 'like', '%' . request('search') . '%');
+            $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->where('nama', 'like', '%' . request('search') . '%')->get()->toArray();
         } else if (request('search') != null || request('search_kecamatan') != null || request('search_spesialisasi') != null) {
-            $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->where('nama', 'like', '%' . request('search') . '%')->orWhere('bidang_spesialisasis', 'like', '%' . request('search_spesialisasi') . '%')->orWhere('kecamatans', 'like', '%' . request('search_kecamatan') . '%');
+            $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->where('nama', 'like', '%' . request('search') . '%')->orWhere('bidang_spesialisasis', 'like', '%' . request('search_spesialisasi') . '%')->orWhere('kecamatans', 'like', '%' . request('search_kecamatan') . '%')->get()->toArray();
         } else {
-            $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->get();
+            $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->get()->toArray();
         }
-
-        $response = [
-            'status' => 200,
-            'data' => $data,
-            'message' => 'Berhasil menampilkan seluruh data dokter'
-        ];
-        return response()->json($response, 200);
+        return view('pages/dashboard/admin/kelola-data/kelola-data-dokter', compact('data'));
     }
 
     public function get_one_data_dokter(Request $request)
