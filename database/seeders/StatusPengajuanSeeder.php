@@ -16,7 +16,7 @@ class StatusPengajuanSeeder extends Seeder
         $data_status_pengajuan = [
             ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Sedang Diproses'],
             ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Ditolak'],
-            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Doterima'],
+            ['id' => \Ramsey\Uuid\Uuid::uuid4()->toString(), 'keterangan' => 'Diterima'],
         ];
 
         DB::table('status_pengajuan')->insert($data_status_pengajuan);
