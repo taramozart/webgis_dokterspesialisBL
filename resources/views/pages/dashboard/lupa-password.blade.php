@@ -22,7 +22,7 @@
                 }
             }
         }
-</script>
+    </script>
 </head>
 
 <body>
@@ -35,9 +35,7 @@
                 <span class="text-[#534B3C] text-[20px]">Bandar Lampung <br></span>
             </div>
             <div class="">
-                <Image
-                    src="/Images/logo-login.svg"
-                    alt="logo-dashboard" width={500} height={500} />
+                <Image src="/Images/logo-login.svg" alt="logo-dashboard" width={500} height={500} />
             </div>
         </div>
         <div class="w-full md:w-1/2 relative">
@@ -47,17 +45,20 @@
                     <div class="mb-7">
                         <div class="mb-7 text-[30px] font-medium">LUPA PASSWORD</div>
                     </div>
-                    <div class="text-black">
-                        <div class="mb-[20px]">
-                            <input type="email" name="email" id="email" placeholder="Masukkan Email"
-                                class="mt-1 p-2 w-full border rounded-md border-[#566356] dark:focus:ring-[#6C806C] focus:ring-[#6C806C]"
-                                required autofocus>
+                    <form action="{{route('lupa-password-admin-post')}}" method="POST">
+                        @csrf
+                        <div class="text-black">
+                            <div class="mb-[20px]">
+                                <input type="email" name="email" id="email" placeholder="Masukkan Email"
+                                    class="mt-1 p-2 w-full border rounded-md border-[#566356] dark:focus:ring-[#6C806C] focus:ring-[#6C806C]"
+                                    required autofocus>
+                            </div>
                         </div>
-                    </div>
-                    <button type="button" onClick={handleFormSubmit}
-                        class="text-white w-[40%] bg-[#6C806C] hover:bg-[#566356] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 mt-2 dark:bg-[#6C806C] dark:hover:bg-[#566356] focus:outline-none">
-                        Kirim Kode
-                    </button>
+                        <button type="submit"
+                            class="text-white w-[40%] bg-[#6C806C] hover:bg-[#566356] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 mt-2 dark:bg-[#6C806C] dark:hover:bg-[#566356] focus:outline-none">
+                            Kirim Kode
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

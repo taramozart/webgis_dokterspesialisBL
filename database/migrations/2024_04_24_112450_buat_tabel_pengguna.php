@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('role_id')->references('id')->on('roles'); 
             $table->string('nama')->nullable();
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('nomor_sip')->nullable();
             $table->string('password');
             $table->string('otp')->nullable();

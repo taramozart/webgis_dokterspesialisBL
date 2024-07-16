@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DataDokterController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +29,7 @@ Route::get('/map', MapLocation::class);
 Route::get('/detail-dokter', MapDetailDokter::class);
 Route::get('/home', MapHome::class);
 Route::get('/', MapHome::class);
-Route::get('/data-baru-dokter', MapAdminDataBaru::class);
+Route::get('/data-baru-dokter', MapAdminDataBaru::class)->name('data-baru-dokter');
 Route::post('/data-baru-dokter', [DataDokterController::class, 'create_data_dokter'] )->name('data-baru-dokter-post');
 // Route::get('/kelola-data-dokter/lihat', MapDokterLihat::class);
 Route::get('/kelola-data-dokter/edit', MapDokterEdit::class)->name('kelola-data-dokter-edit');
@@ -44,10 +45,15 @@ Route::get('/tes', function () {
 
 Route::controller(GeneralPage::class) -> group(function () {
     // awal login
-    Route::get('/login', 'login');
-    Route::get('/lupa-password', 'lupapassword');
-    Route::get('/otp-password', 'otppassword');
-    Route::get('/password-baru', 'passwordbaru');
+    Route::get('/login', 'login')->name('login-admin');
+    Route::post('/login', [AuthController::class, 'loginAdmin'])->name('login-admin-post');
+    Route::get('/logout', [AuthController::class, 'logoutAdmin'])->name('logout-admin');
+    Route::get('/lupa-password', 'lupapassword')->name('lupa-password-admin');
+    Route::post('/lupa-password', [AuthController::class, 'generateOtpAdmin'])->name('lupa-password-admin-post');
+    Route::get('/otp-password', 'otppassword')->name('otp-password-admin');
+    Route::post('/otp-password', [AuthController::class, 'checkOtpAdmin'])->name('otp-password-admin-post');
+    Route::get('/password-baru', 'passwordbaru')->name('password-baru-admin');
+    Route::post('/password-baru', [AuthController::class, 'buatPasswordBaruAdmin'])->name('password-baru-admin-post');
     // akhir login
     // awal admin
     Route::get('/artikel-kesehatan', 'artikelkesehatan');
