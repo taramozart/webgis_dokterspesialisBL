@@ -13,67 +13,51 @@ class DataDokterController extends Controller
 {
 
     // Data Dokter
-    public function create_data_dokter()
+    public function create_data_dokter(Request $request)
     {
-        $validator = Validator::make(request()->all(), [
+        $validator = Validator::make($request->all(), [
             'nama' => 'required',
-            'bidang_spesialisasi' => 'required',
+            'bidang_spesialisasi' => 'required|exists:spesialisasi,id',
             'nomor_sip' => 'required',
             'jadwal' => 'required',
-            'kecamatan' => 'required',
+            'kecamatan' => 'required|exists:wilayah,id',
             'alamat' => 'required',
             'latitude' => 'required',
-            'longtitude' => 'required',
+            'longitude' => 'required',
             'gambar' => 'required',
         ]);
 
         if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
+            return back()->withInput()->withErrors($validator->messages());
         }
 
-        try {
-            $data_dokter = new data_dokter();
-            $data_dokter->nama = request('nama');
-            $bidang_spesialisasi = spesialisasi::where('id', request('bidang_spesialisasi'))->first();
-            $data_dokter->nomor_sip = request('nomor_sip');
-            $data_dokter->jadwal = request('jadwal');
-            $kecamatan = wilayah::where('id', request('kecamatan'))->first();
-            $data_dokter->alamat = request('alamat');
-            $data_dokter->latitude = request('latitude');
-            $data_dokter->longtitude = request('longtitude');
-            $data_dokter->bidang_spesialisasis()->associate($bidang_spesialisasi);
-            $data_dokter->kecamatans()->associate($kecamatan);
-            $data_dokter->save();
-            $id = $data_dokter->id;
-            $data_dokter->gambar = request('gambar')->store("data_dokter/$id");
-            $data_dokter->update();
 
-            $response = [
-                'status' => 200,
-                'message' => 'Berhasil Membuat Data Dokter',
-                'data' => $data_dokter
-            ];
-            return response()->json($response, 200);
+        $data = data_dokter::create([
+            'nama' => $request->nama,
+            'bidang_spesialisasi' => $request->bidang_spesialisasi,
+            'nomor_sip' => $request->nomor_sip,
+            'jadwal' => $request->jadwal,
+            'kecamatan' => $request->kecamatan,
+            'alamat' => $request->alamat,
+            'latitude' => $request->latitude,
+            'longtitude' => $request->longitude,
+        ]);
 
-        } catch (\Exception $e) {
-            $response = [
-                'status' => 400,
-                'message' => $e->getMessage()
-            ];
-            return response()->json($response, 400);
-        }
+        $id = $data->id;
+        $gambar = $request->gambar->store("data_dokter/{$id}");
+        $data->update(['gambar' => $gambar]);
+
+        return back()->with('success', 'Data Dokter Berhasil ditambahkan');
+
     }
 
     public function get_all_data_dokter()
     {
-        if(request('search') != null && request('search_kecamatan') == null && request('search_spesialisasi') == null){
-            $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->where('nama', 'like', '%'.request('search').'%');
-        }else if(request('search') != null || request('search_kecamatan') != null || request('search_spesialisasi') != null) {
-            $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->where('nama', 'like', '%'.request('search').'%')->orWhere('bidang_spesialisasis', 'like', '%'.request('search_spesialisasi').'%')->orWhere('kecamatans', 'like', '%'.request('search_kecamatan').'%');
-        }else{
+        if (request('search') != null && request('search_kecamatan') == null && request('search_spesialisasi') == null) {
+            $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->where('nama', 'like', '%' . request('search') . '%');
+        } else if (request('search') != null || request('search_kecamatan') != null || request('search_spesialisasi') != null) {
+            $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->where('nama', 'like', '%' . request('search') . '%')->orWhere('bidang_spesialisasis', 'like', '%' . request('search_spesialisasi') . '%')->orWhere('kecamatans', 'like', '%' . request('search_kecamatan') . '%');
+        } else {
             $data = data_dokter::with('bidang_spesialisasis', 'kecamatans')->get();
         }
 
@@ -186,7 +170,7 @@ class DataDokterController extends Controller
         }
 
         $data_dokter = data_dokter::where('id', request('id'))->first();
-        $id=$data_dokter->id;
+        $id = $data_dokter->id;
         Storage::deleteDirectory("data_dokter/$id");
         $data_dokter->delete();
         $response = [
@@ -196,5 +180,5 @@ class DataDokterController extends Controller
         ];
         return response()->json($response, 200);
     }
-    
+
 }

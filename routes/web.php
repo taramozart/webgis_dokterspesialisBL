@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DataDokterController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\GeneralPage;
@@ -28,6 +29,7 @@ Route::get('/detail-dokter', MapDetailDokter::class);
 Route::get('/home', MapHome::class);
 Route::get('/', MapHome::class);
 Route::get('/data-baru-dokter', MapAdminDataBaru::class);
+Route::post('/data-baru-dokter', [DataDokterController::class, 'create_data_dokter'] )->name('data-baru-dokter-post');
 // Route::get('/kelola-data-dokter/lihat', MapDokterLihat::class);
 Route::get('/kelola-data-dokter/edit', MapDokterEdit::class);
 // MAP BOX ROUTE
