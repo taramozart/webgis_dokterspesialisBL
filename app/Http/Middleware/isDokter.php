@@ -21,6 +21,6 @@ class isDokter
             }
             auth()->logout();
         }
-        return redirect()->route('login-admin');
+        return redirect()->route('login-dokter');
     }
 }

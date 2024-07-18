@@ -3,6 +3,8 @@
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DataDokterController;
+use App\Http\Controllers\PengajuanDokterController;
+use App\Http\Controllers\PenggunaController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\GeneralPage;
@@ -42,7 +44,28 @@ Route::get('/', MapHome::class);
 
 
 Route::controller(GeneralPage::class)->group(function () {
-    // awal login
+    Route::get('/login', 'login')->name('login-admin');
+    Route::post('/login', [AuthController::class, 'loginAdmin'])->name('login-admin-post');
+    Route::get('/logout', [AuthController::class, 'logoutAdmin'])->name('logout-admin');
+    Route::get('/lupa-password', 'lupapassword')->name('lupa-password-admin');
+    Route::post('/lupa-password', [AuthController::class, 'generateOtpAdmin'])->name('lupa-password-admin-post');
+    Route::get('/otp-password', 'otppassword')->name('otp-password-admin');
+    Route::post('/otp-password', [AuthController::class, 'checkOtpAdmin'])->name('otp-password-admin-post');
+    Route::get('/password-baru', 'passwordbaru')->name('password-baru-admin');
+    Route::post('/password-baru', [AuthController::class, 'buatPasswordBaruAdmin'])->name('password-baru-admin-post');
+
+    Route::get('/buat-akun-dokter', 'buatAkunDokter')->name('buat-akun-dokter');
+    Route::post('/buat-akun-dokter', [PenggunaController::class, 'create_pengguna_dokter'])->name('buat-akun-dokter-post');
+    Route::get('/login-dokter', 'loginDokter')->name('login-dokter');
+    Route::post('/login-dokter', [AuthController::class, 'loginDokter'])->name('login-dokter-post');
+    Route::get('/logout-dokter', [AuthController::class, 'logoutDokter'])->name('logout-dokter');
+    Route::get('/lupa-password-dokter', 'lupaPasswordDokter')->name('lupa-password-dokter');
+    Route::post('/lupa-password-dokter', [AuthController::class, 'generateOtpDokter'])->name('lupa-password-dokter-post');
+    Route::get('/kode-otp-dokter', 'kodeOtpDokter')->name('otp-password-dokter');
+    Route::post('/kode-otp-dokter', [AuthController::class, 'checkOtpDokter'])->name('otp-password-dokter-post');
+    Route::get('/password-baru-dokter', 'passwordBaruDokter')->name('password-baru-dokter');
+    Route::post('/password-baru-dokter', [AuthController::class, 'buatPasswordBaruDokter'])->name('password-baru-dokter-post');
+
     Route::middleware('admin')->group(function () {
         Route::get('/data-baru-dokter', MapAdminDataBaru::class)->name('data-baru-dokter');
         Route::post('/data-baru-dokter', [DataDokterController::class, 'create_data_dokter'])->name('data-baru-dokter-post');
@@ -61,21 +84,15 @@ Route::controller(GeneralPage::class)->group(function () {
         Route::post('/edit-artikel', [ArtikelController::class, 'update_artikel'])->name('edit-artikel-post');
         Route::get('/delete-artikel', [ArtikelController::class, 'delete_artikel'])->name('delete-artikel');
     });
-    Route::get('/login', 'login')->name('login-admin');
-    Route::post('/login', [AuthController::class, 'loginAdmin'])->name('login-admin-post');
-    Route::get('/logout', [AuthController::class, 'logoutAdmin'])->name('logout-admin');
-    Route::get('/lupa-password', 'lupapassword')->name('lupa-password-admin');
-    Route::post('/lupa-password', [AuthController::class, 'generateOtpAdmin'])->name('lupa-password-admin-post');
-    Route::get('/otp-password', 'otppassword')->name('otp-password-admin');
-    Route::post('/otp-password', [AuthController::class, 'checkOtpAdmin'])->name('otp-password-admin-post');
-    Route::get('/password-baru', 'passwordbaru')->name('password-baru-admin');
-    Route::post('/password-baru', [AuthController::class, 'buatPasswordBaruAdmin'])->name('password-baru-admin-post');
-    // akhir login
-    // awal admin
 
-
-
-
+    Route::middleware('dokter')->group(function () {
+        Route::get('/dashboard-pengajuan-dokter', 'dashboardPengajuanDokter')->name('dashboard-pengajuan-dokter');
+        Route::get('/pengajuan-tambah-lokasi', 'tambahLokasiPengajuan');
+        Route::get('/pengajuan-ubah-lokasi', 'ubahLokasiPengajuan');
+        Route::get('/pengajuan-hapus-lokasi', 'hapusLokasiPengajuan');
+        Route::get('/cek-status-pengajuan', 'cekStatusPengajuan');
+        Route::get('/ubah-profile', 'ubahProfile');
+    });
 
     // Route::get('/data-baru-dokter', 'databarudokter');
 
@@ -89,9 +106,6 @@ Route::controller(GeneralPage::class)->group(function () {
     Route::get('/lihat-pengajuan-dokter-ubah', 'lihatpengajuandokterubah');
     Route::get('/lihat-pengajuan-dokter-hapus', 'lihatpengajuandokterhapus');
     // akhir admin
-
-
-
     // Landing page
     // home
     // Route::get('/home', 'home');
@@ -101,32 +115,13 @@ Route::controller(GeneralPage::class)->group(function () {
     Route::get('/user/kode-otp', 'kodeOtpUser');
     Route::get('/user/password-baru', 'passwordBaruUser');
     Route::get('/user/buat-akun', 'buatAkunUser');
-    // profile-dokter
     Route::get('/profile-dokter', 'profileDokter');
     // Route::get('/detail-dokter', 'detailDokter');
 
-    // pengajuan dokter
-    // login dokter
-    Route::get('/login-dokter', 'loginDokter');
-    Route::get('/lupa-password-dokter', 'lupaPasswordDokter');
-    Route::get('/kode-otp-dokter', 'kodeOtpDokter');
-    Route::get('/password-baru-dokter', 'passwordBaruDokter');
-    Route::get('/buat-akun-dokter', 'buatAkunDokter');
-    // pengajuan
-    Route::get('/dashboard-pengajuan-dokter', 'dashboardPengajuanDokter');
-    Route::get('/pengajuan-tambah-lokasi', 'tambahLokasiPengajuan');
-    Route::get('/pengajuan-ubah-lokasi', 'ubahLokasiPengajuan');
-    Route::get('/pengajuan-hapus-lokasi', 'hapusLokasiPengajuan');
-    Route::get('/cek-status-pengajuan', 'cekStatusPengajuan');
 
     // map
     // Route::get('/map', 'mapLanding');
 
-    Route::get('/ubah-profile', 'ubahProfile');
     Route::get('/ubah-profile-user', 'ubahProfileUser');
     Route::get('/detail-artikel', 'detailArtikel');
-
-
-    // Landing page
-
 });

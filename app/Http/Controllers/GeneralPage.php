@@ -151,6 +151,10 @@ class GeneralPage extends Controller
         return view('pages/landing-page/ubah-profile');
     }
 
+    function ubahProfileUser () {
+        return view('pages/landing-page/ubah-profile-user');
+    }
+
     function detailArtikel () {
         return view('pages/landing-page/home/detail-artikel');
     }

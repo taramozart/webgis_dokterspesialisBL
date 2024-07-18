@@ -38,20 +38,48 @@
                 <!-- Dropdown menu -->
                 <div class=" z-50 hidden my-4 text-base list-none bg-white divide-y divide-white rounded-lg shadow :bg-gray-700 :divide-gray-600"
                     id="user-dropdown">
-
-                    <ul class="py-2" aria-labelledby="user-menu-button">
-                        <li>
-                            <a href="/user/login"
-                                class="block px-4 py-2 text-base text-gray-700 hover:bg-white :hover:bg-gray-600 :text-gray-200 hover:text-black">Login</a>
-                        </li>
-
-                        </li>
-                        <li>
-                            <a href="/user/buat-akun"
-                                class="block px-4 py-2 text-base text-gray-700 hover:bg-white :hover:bg-gray-600 :text-gray-200 hover:text-black">Buat
-                                Akun</a>
-                        </li>
-                    </ul>
+                    @if (Auth::check())
+                        @if (Auth::user()->role_id == 2)
+                            <ul class="py-2" aria-labelledby="user-menu-button">
+                                <li>
+                                    <a href="/ubah-profile"
+                                        class="block px-4 py-2 text-base text-gray-700 hover:bg-white :hover:bg-gray-600 :text-gray-200 hover:text-black">User
+                                        Profile</a>
+                                </li>
+                                </li>
+                                <li>
+                                    <a href="{{ route('logout-dokter') }}"
+                                        class="block px-4 py-2 text-base text-gray-700 hover:bg-white :hover:bg-gray-600 :text-gray-200 hover:text-black">Keluar</a>
+                                </li>
+                            </ul>
+                        @else
+                            <ul class="py-2" aria-labelledby="user-menu-button">
+                                <li>
+                                    <a href="/ubah-profile"
+                                        class="block px-4 py-2 text-base text-gray-700 hover:bg-white :hover:bg-gray-600 :text-gray-200 hover:text-black">User
+                                        Profile</a>
+                                </li>
+                                </li>
+                                <li>
+                                    <a href="{{ route('logout-dokter') }}"
+                                        class="block px-4 py-2 text-base text-gray-700 hover:bg-white :hover:bg-gray-600 :text-gray-200 hover:text-black">Keluar</a>
+                                </li>
+                            </ul>
+                        @endif
+                    @else
+                        <ul class="py-2" aria-labelledby="user-menu-button">
+                            <li>
+                                <a href="/user/login"
+                                    class="block px-4 py-2 text-base text-gray-700 hover:bg-white :hover:bg-gray-600 :text-gray-200 hover:text-black">Login</a>
+                            </li>
+                            </li>
+                            <li>
+                                <a href="/user/buat-akun"
+                                    class="block px-4 py-2 text-base text-gray-700 hover:bg-white :hover:bg-gray-600 :text-gray-200 hover:text-black">Buat
+                                    Akun</a>
+                            </li>
+                        </ul>
+                    @endif
                 </div>
                 <button data-collapse-toggle="navbar-user" type="button"
                     class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white hover:text-[#84A584] rounded-lg md:hidden hover:bg-white focus:outline-none focus:ring-2 focus:ring-gray-200 :text-gray-400 :hover:bg-gray-700 :focus:ring-gray-600"
@@ -69,7 +97,7 @@
                     class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-white rounded-lg  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0  :bg-gray-800 md::bg-gray-900 :border-gray-700 bg-white menuu">
                     <li>
                         @php
-                            $home = ['home','detail-artikel', '/'];
+                            $home = ['home', 'detail-artikel', '/'];
                         @endphp
                         <a href="/home"
                             class="block py-2 px-3 text-xl md:p-0 md::text-blue-500 x @if (in_array(Request::path(), $home)) md:text-[#534B3C]  text-white font-bold bg-[#84A584] rounded md:bg-transparent
@@ -102,12 +130,18 @@
                     {{--  --}}
                     <li>
                         @php
-                            $pengajuan = ['dashboard-pengajuan-dokter', 'pengajuan-tambah-lokasi', 'pengajuan-ubah-lokasi', 'pengajuan-hapus-lokasi','cek-status-pengajuan',
-                            'user/login',
-                          'user/lupa-password',
-                        'user/kode-otp',
-                        'user/buat-akun',
-                        'user/password-baru',];
+                            $pengajuan = [
+                                'dashboard-pengajuan-dokter',
+                                'pengajuan-tambah-lokasi',
+                                'pengajuan-ubah-lokasi',
+                                'pengajuan-hapus-lokasi',
+                                'cek-status-pengajuan',
+                                'user/login',
+                                'user/lupa-password',
+                                'user/kode-otp',
+                                'user/buat-akun',
+                                'user/password-baru',
+                            ];
                         @endphp
                         <a href="/dashboard-pengajuan-dokter"
                             class="block py-2 px-3 text-xl md:p-0 md::text-blue-500 x @if (in_array(Request::path(), $pengajuan)) md:text-[#534B3C]  text-white font-bold bg-[#84A584] rounded md:bg-transparent
@@ -116,7 +150,7 @@
                             aria-current="page">Pengajuan Dokter</a>
                     </li>
                     {{--  --}}
-                    
+
                 </ul>
             </div>
         </div>
