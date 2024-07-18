@@ -90,7 +90,7 @@ class DataDokterController extends Controller
 
 
         $data = data_dokter::where('id', request()->query('id'))->first();
-        if($request->gambar !== null){
+        if ($request->gambar !== null) {
             Storage::delete($data->gambar);
             $gambar = $request->gambar->store("data_dokter/{$data->id}");
         }
@@ -110,29 +110,14 @@ class DataDokterController extends Controller
         return redirect()->route('kelola-data-dokter')->with('success', 'Data Dokter Berhasil diupdate');
     }
 
-    public function delete_data_dokter()
+    public function delete_data_dokter(Request $request)
     {
-        $validator = Validator::make(request()->all(), [
-            'id' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
+        $data_dokter = data_dokter::where('id', $request->query('id'))->firstOrFail();
+        if ($data_dokter->gambar !== null) {
+            Storage::delete($data_dokter->gambar);
         }
-
-        $data_dokter = data_dokter::where('id', request('id'))->first();
-        $id = $data_dokter->id;
-        Storage::deleteDirectory("data_dokter/$id");
         $data_dokter->delete();
-        $response = [
-            'status' => 200,
-            'message' => 'Berhasil Menghapus Data Dokter',
-            'data' => $data_dokter
-        ];
-        return response()->json($response, 200);
+        return redirect()->route('kelola-data-dokter')->with('success', 'Data Dokter Berhasil dihapus');
     }
 
 }

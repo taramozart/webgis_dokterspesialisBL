@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DataDokterController;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,7 @@ use App\Http\Livewire\MapDokterEdit;
 // use App\Http\Livewire\MapDokterLihat;
 use App\Http\Livewire\MapHome;
 use App\Http\Livewire\MapLocation;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,22 +31,36 @@ Route::get('/map', MapLocation::class);
 Route::get('/detail-dokter', MapDetailDokter::class);
 Route::get('/home', MapHome::class);
 Route::get('/', MapHome::class);
-Route::get('/data-baru-dokter', MapAdminDataBaru::class)->name('data-baru-dokter');
-Route::post('/data-baru-dokter', [DataDokterController::class, 'create_data_dokter'] )->name('data-baru-dokter-post');
-// Route::get('/kelola-data-dokter/lihat', MapDokterLihat::class);
-Route::get('/kelola-data-dokter/edit', MapDokterEdit::class)->name('kelola-data-dokter-edit');
-Route::post('/kelola-data-dokter/edit', [DataDokterController::class, 'update_data_dokter'])->name('kelola-data-dokter-edit-post');
 // MAP BOX ROUTE
 
 // Route::get('/', function () {
 //     return view('pages/landing-page/home/home');
 // });
-Route::get('/tes', function () {
-    return view('tes');
-});
+// Route::get('/tes', function () {
+//     return view('tes');
+// });
 
-Route::controller(GeneralPage::class) -> group(function () {
+
+Route::controller(GeneralPage::class)->group(function () {
     // awal login
+    Route::middleware('admin')->group(function () {
+        Route::get('/data-baru-dokter', MapAdminDataBaru::class)->name('data-baru-dokter');
+        Route::post('/data-baru-dokter', [DataDokterController::class, 'create_data_dokter'])->name('data-baru-dokter-post');
+        // Route::get('/kelola-data-dokter/lihat', MapDokterLihat::class);
+        Route::get('/kelola-data-dokter/edit', MapDokterEdit::class)->name('kelola-data-dokter-edit');
+        Route::post('/kelola-data-dokter/edit', [DataDokterController::class, 'update_data_dokter'])->name('kelola-data-dokter-edit-post');
+        Route::get('/kelola-data-dokter/delete', [DataDokterController::class, 'delete_data_dokter'])->name('kelola-data-dokter-delete');
+        Route::get('/kelola-data-dokter', [DataDokterController::class, 'get_all_data_dokter'])->name('kelola-data-dokter');
+        // Route::get('/kelola-data-dokter/edit', 'keloladatadokterEdit');
+        Route::get('/kelola-data-dokter/lihat', [DataDokterController::class, 'get_one_data_dokter'])->name('kelola-data-dokter-lihat');
+        Route::get('/artikel-kesehatan', [ArtikelController::class, 'get_all_artikel'])->name('artikel-kesehatan');
+        Route::get('/buat-artikel', 'buatartikel')->name('buat-artikel');
+        Route::post('/buat-artikel', [ArtikelController::class, 'create_artikel'])->name('buat-artikel-post');
+        Route::get('/lihat-artikel', [ArtikelController::class, 'get_one_artikel'])->name('lihat-artikel');
+        Route::get('/edit-artikel', [ArtikelController::class, 'update_artikel_view'])->name('edit-artikel');
+        Route::post('/edit-artikel', [ArtikelController::class, 'update_artikel'])->name('edit-artikel-post');
+        Route::get('/delete-artikel', [ArtikelController::class, 'delete_artikel'])->name('delete-artikel');
+    });
     Route::get('/login', 'login')->name('login-admin');
     Route::post('/login', [AuthController::class, 'loginAdmin'])->name('login-admin-post');
     Route::get('/logout', [AuthController::class, 'logoutAdmin'])->name('logout-admin');
@@ -56,10 +72,7 @@ Route::controller(GeneralPage::class) -> group(function () {
     Route::post('/password-baru', [AuthController::class, 'buatPasswordBaruAdmin'])->name('password-baru-admin-post');
     // akhir login
     // awal admin
-    Route::get('/artikel-kesehatan', 'artikelkesehatan');
-    Route::get('/buat-artikel', 'buatartikel');
-    Route::get('/lihat-artikel', 'lihatartikel');
-    Route::get('/edit-artikel', 'editartikel');
+
 
 
 
@@ -70,12 +83,6 @@ Route::controller(GeneralPage::class) -> group(function () {
     Route::get('/lihat-data-pengajuan-tambah', 'lihatdatapengajuantambah');
     Route::get('/lihat-data-pengajuan-ubah', 'lihatdatapengajuanubah');
     Route::get('/lihat-data-pengajuan-hapus', 'lihatdatapengajuanhapus');
-
-
-
-    Route::get('/kelola-data-dokter', [DataDokterController::class, 'get_all_data_dokter'])->name('kelola-data-dokter');
-    // Route::get('/kelola-data-dokter/edit', 'keloladatadokterEdit');
-    Route::get('/kelola-data-dokter/lihat', [DataDokterController::class, 'get_one_data_dokter'])->name('kelola-data-dokter-lihat');
 
     Route::get('/pengajuan-dokter', 'pengajuandokter');
     Route::get('/lihat-pengajuan-dokter-tambah', 'lihatpengajuandoktertambah');

@@ -24,33 +24,30 @@
                     {{-- isi konten disini --}}
                     <div class="p-10">
                         <div class="flex justify-between">
-                            <div class="text-black text-[30px] font-bold">Lorem Ipsum is simply dummy text</div>
-                            <div class="text-[16px]">Senin, 20 Oktober 2023</div>
+                            <div class="text-black text-[30px] font-bold">{{ $data['judul'] }}</div>
+                            <div class="text-[16px]">
+                                @php
+                                    $formattedDay = Carbon\Carbon::parse($data['created_at'])->translatedFormat('l');
+                                    $formattedDate = Carbon\Carbon::parse($data['created_at'])->translatedFormat('j F');
+                                    $formattedYear = Carbon\Carbon::parse($data['created_at'])->translatedFormat('Y');
+                                @endphp
+
+                                {{ $formattedDay }}, {{ $formattedDate }} {{ $formattedYear }}
+                            </div>
                         </div>
                         <div class="flex m-auto justify-center items-center mt-5">
-                            <svg width="416" height="229" viewBox="0 0 416 229" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 0H416V229H0V0Z" fill="#D9D9D9" />
-                            </svg>
+                            <img src="{{url(asset('storage/'.$data['gambar']))}}" width="416" height="229" alt="">
                         </div>
                         <div class="text-[22px] text-black text-justify mt-5">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been
-                            the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley
-                            of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries,
-                            but also the leap into electronic typesetting, remaining essentially unchanged. It was
-                            popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages,
-                            and more recently with desktop publishing software like Aldus PageMaker including versions
-                            of
-                            Lorem Ipsum.
+                            {{ $data['deskripsi'] }}
                         </div>
                         <div class="flex justify-between mt-10">
-                            <div class="div">Sumber Referensi :
-                                https://maps.app.goo.glCJV9TWDKhNqoYcHm6 </div>
-                            <div class="div">Penulis : Budi Susanto</div>
+                            <div class="div">
+                                Sumber Referensi : {{$data['sumber']}} 
+                            </div>
+                            <div class="div">
+                                Penulis : {{$data['penulis']}}
+                            </div>
                         </div>
                     </div>
                 </div>

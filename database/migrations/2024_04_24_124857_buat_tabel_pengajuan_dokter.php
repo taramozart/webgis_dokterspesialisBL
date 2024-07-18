@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('pengajuan_dokter', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('pengguna_id')->references('id')->on('pengguna');
-            $table->foreignUuid('jenis_pengajuan_id')->references('id')->on('jenis_pengajuan');
-            $table->foreignUuid('status_pengajuan_id')->references('id')->on('status_pengajuan');
+            $table->foreignId('jenis_pengajuan_id')->references('id')->on('jenis_pengajuan');
+            $table->foreignId('status_pengajuan_id')->references('id')->on('status_pengajuan');
             $table->foreignUuid('pengajuan_dokter_sebelumnya_id')->nullable();
             $table->string('nama');
             $table->foreignUuid('bidang_spesialisasi')->references('id')->on('spesialisasi');

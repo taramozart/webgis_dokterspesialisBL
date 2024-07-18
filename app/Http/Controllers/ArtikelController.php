@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\artikel;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -10,11 +11,11 @@ use Illuminate\Support\Facades\Validator;
 class ArtikelController extends Controller
 {
     //Artikel
-    public function create_artikel()
+    public function create_artikel(Request $request)
     {
         $validator = Validator::make(request()->all(), [
             'judul' => 'required',
-            'gambar' => 'required',
+            'gambar' => 'required|mimes:jpg,png,jpeg|max:2048',
             'deskripsi' => 'required',
             'sumber' => 'required',
             'penulis' => 'required',
@@ -23,129 +24,82 @@ class ArtikelController extends Controller
         if ($validator->fails()) {
             return back()->withInput()->withErrors($validator->messages());
         }
-            
 
-            // $data_artikel = new artikel();
-            // $data_artikel->judul = request('judul');
-            // $data_artikel->deskripsi = request('deskripsi');
-            // $data_artikel->sumber = request('sumber');
-            // $data_artikel->penulis = request('penulis');
-            // $data_artikel->save();
-            // $id = $data_artikel->id;
-            // $data_artikel->gambar = request('gambar')->store("artikel/$id");
-            // $data_artikel->update();
+        $gambar = $request->gambar->store("artikel/");
+        
+        artikel::create([
+            'judul' => $request->judul,
+            'sumber' => $request->sumber,
+            'deskripsi' => $request->deskripsi,
+            'penulis' => $request->penulis, 
+            'gambar' => $gambar
+        ]);
 
-            // $response = [
-            //     'status' => 200,
-            //     'data' => $data_artikel,
-            //     'message' => 'Berhasil menambahkan data artikel'
-            // ];
-            // return response()->json($response, 200);
 
+        return redirect()->route('artikel-kesehatan');
     }
 
-    public function get_all_artikel()
+    public function get_all_artikel(Request $request)
     {
-        $data = artikel::all();
-        $response = [
-            'status' => 200,
-            'data' => $data,
-            'message' => 'Berhasil menampilkan seluruh artikel'
-        ];
-        return response()->json($response, 200);
+        $data = artikel::where(function (Builder $query) use ($request) {
+            if (isset($request->search)) {
+                $query->where('judul', 'LIKE', "%{$request->search}%");
+            }
+        })->paginate(5)->toArray();
+        return view('pages/dashboard/admin/artikel/artikel-kesehatan', compact('data'));
+        
     }
 
-    public function get_one_artikel()
+    public function get_one_artikel(Request $request)
+    {
+        $data = artikel::where('id', $request->query('id'))->firstOrFail()->toArray();
+        return view('pages/dashboard/admin/artikel/lihat-artikel/lihat-artikel', compact('data'));
+    }
+
+    public function update_artikel_view(Request $request){
+        $data = artikel::where('id', $request->query('id'))->firstOrFail()->toArray();
+        return view('pages/dashboard/admin/artikel/edit-artikel/edit-artikel', compact('data'));
+    }
+
+    public function update_artikel(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            'id' => 'required',
+            'judul' => 'required',
+            'gambar' => 'mimes:jpg,png,jpeg|max:2048',
+            'deskripsi' => 'required',
+            'sumber' => 'required',
+            'penulis' => 'required',
         ]);
 
         if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
+            return back()->withInput()->withErrors($validator->messages());
         }
 
-        $data = artikel::where('id', request('id'))->get();
-        $response = [
-            'status' => 200,
-            'data' => $data,
-            'message' => 'Berhasil menampilkan satu data artikel'
-        ];
-        return response()->json($response, 200);
-    }
+        $data = artikel::where('id', $request->query('id'))->firstOrFail();
+        if($request->gambar !== null){
+            Storage::delete($data->gambar);
+            $gambar = $request->gambar->store("artikel/");
+        }
 
-    public function update_artikel()
-    {
-        $validator = Validator::make(request()->all(), [
-            'id' => 'required',
+        $data->update([
+            'judul' => $request->judul,
+            'sumber' => $request->sumber,
+            'deskripsi' => $request->deskripsi,
+            'penulis' => $request->penulis, 
+            'gambar' => $request->gambar !== null ? $gambar : $data->gambar
         ]);
 
-        if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
-        }
+        return redirect()->route('artikel-kesehatan');
 
-        try {
-
-            $data = artikel::where('id', request('id'))->first();
-            if (request('judul') != null) {
-                $data->judul = request('judul');
-            }
-            if (request('deskripsi') != null) {
-                $data->deskripsi = request('deskripsi');
-            }
-            if (request('sumber') != null) {
-                $data->sumber = request('sumber');
-            }
-            if (request('penulis') != null) {
-                $data->penulis = request('penulis');
-            }
-            if (request('gambar') != null) {
-                Storage::delete($data->gambar);
-                $data->gambar = request('gambar')->store("artikel/$data->id");
-            }
-            $data->update();
-            $response = [
-                'status' => 200,
-                'data' => $data,
-                'message' => 'Berhasil Update Data Artikel'
-            ];
-            return response()->json($response, 200);
-        } catch (\Exception $e) {
-            $response = [
-                'status' => 400,
-                'message' => $e->getMessage()
-            ];
-            return response()->json($response, 400);
-        }
     }
 
-    public function delete_artikel(){
+    public function delete_artikel(Request $request){
 
-        $validator = Validator::make(request()->all(), [
-            'id' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
+        $data = artikel::where('id', $request->query('id'))->firstOrFail();
+        if($data->gambar !== null){
+            Storage::delete($data->gambar);
         }
-
-        $data = artikel::where('id', request('id'))->first();
-        Storage::delete($data->gambar);
         $data->delete();
-        $response = [
-            'status' => 200,
-            'data' => $data,
-            'message' => 'Berhasil Menghapus Data Artikel'
-        ];
-        return response()->json($response, 200);
+        return redirect()->route('artikel-kesehatan');
     }
 }

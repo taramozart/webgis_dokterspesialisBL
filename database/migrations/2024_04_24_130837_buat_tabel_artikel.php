@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('judul');
             $table->string('gambar');
-            $table->string('deskripsi');
+            $table->longText('deskripsi');
             $table->string('sumber');
             $table->string('penulis');
             $table->timestamps();
