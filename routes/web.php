@@ -29,10 +29,10 @@ use App\Http\Livewire\MapLocation;
 
 
 // MAP BOX ROUTE
-Route::get('/map', MapLocation::class);
+Route::get('/map', MapLocation::class)->name('map');
 Route::get('/detail-dokter', MapDetailDokter::class);
 Route::get('/home', MapHome::class);
-Route::get('/', MapHome::class);
+Route::get('/', MapHome::class)->name('home');
 // MAP BOX ROUTE
 
 // Route::get('/', function () {
@@ -65,6 +65,19 @@ Route::controller(GeneralPage::class)->group(function () {
     Route::post('/kode-otp-dokter', [AuthController::class, 'checkOtpDokter'])->name('otp-password-dokter-post');
     Route::get('/password-baru-dokter', 'passwordBaruDokter')->name('password-baru-dokter');
     Route::post('/password-baru-dokter', [AuthController::class, 'buatPasswordBaruDokter'])->name('password-baru-dokter-post');
+
+    Route::get('/user/login', 'loginUser')->name('login-user');
+    Route::get('/user/logout', [AuthController::class, 'logoutPengguna'])->name('logout-user');
+    Route::post('/user/login', [AuthController::class, 'LoginPengguna'])->name('login-user-post');
+    Route::get('/user/buat-akun', 'buatAkunUser')->name('buat-akun-user');
+    Route::post('/user/buat-akun', [PenggunaController::class, 'create_pengguna'])->name('buat-akun-user-post');
+    Route::get('/user/lupa-password', 'lupaPasswordUser')->name('lupa-password-user');
+    Route::post('/user/lupa-password', [AuthController::class, 'generateOtpPengguna'])->name('lupa-password-user-post');
+    Route::get('/user/kode-otp', 'kodeOtpUser')->name('otp-password-user');
+    Route::post('/user/kode-otp', [AuthController::class, 'checkOtpPengguna'])->name('otp-password-user-post');
+    Route::get('/user/password-baru', 'passwordBaruUser')->name('password-baru-user');
+    Route::post('/user/password-baru', [AuthController::class, 'buatPasswordBaruPengguna'])->name('password-baru-user-post');
+    
 
     Route::middleware('admin')->group(function () {
         Route::get('/data-baru-dokter', MapAdminDataBaru::class)->name('data-baru-dokter');
@@ -110,11 +123,6 @@ Route::controller(GeneralPage::class)->group(function () {
     // home
     // Route::get('/home', 'home');
     // login user
-    Route::get('/user/login', 'loginUser');
-    Route::get('/user/lupa-password', 'lupaPasswordUser');
-    Route::get('/user/kode-otp', 'kodeOtpUser');
-    Route::get('/user/password-baru', 'passwordBaruUser');
-    Route::get('/user/buat-akun', 'buatAkunUser');
     Route::get('/profile-dokter', 'profileDokter');
     // Route::get('/detail-dokter', 'detailDokter');
 

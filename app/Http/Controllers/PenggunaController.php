@@ -40,46 +40,29 @@ class PenggunaController extends Controller
 
     }
 
-    public function create_pengguna()
+    public function create_pengguna(Request $request)
     {
         $validator = Validator::make(request()->all(), [
             'nama' => 'required',
-            'email' => 'required',
-            'role_id' => 'required',
-            'password' => 'required',
+            'email' => 'required|email|unique:pengguna',
+            'password' => 'required|min:8',
+            'konfirmasi_password' => 'required|min:8',
         ]);
 
         if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
+            return back()->withInput()->withErrors($validator->messages());
         }
 
-        try{
-
-            $password =  password_hash(request('password'), PASSWORD_BCRYPT);
-            $role = role::where('id', request('role_id'))->first();
-            $data = new pengguna();
-            $data->nama = request('nama');
-            $data->email = request('email');
-            $data->role_ids()->associate($role);
-            $data->password = $password;
-            $data->save();
-            $response = [
-                'status' => 200,
-                'data' => $data,
-                'message' => 'Berhasil menambahkan pengguna'
-            ];
-            return response()->json($response, 200);
-
-        }catch (\Exception $e){
-            $response = [
-                'status' => 400,
-                'message' => $e->getMessage()
-            ];
-            return response()->json($response, 400);
+        if ($request->password == $request->konfirmasi_password) {
+            pengguna::create([
+                'nama' => $request->nama,
+                'role_id' => 3,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            return redirect()->route('login-user')->with('success', 'Berhasil menambahkan pengguna');
         }
+        return back()->withInput()->with('error', 'Konfirmasi password tidak sama');
     }
 
     public function update_pengguna(){

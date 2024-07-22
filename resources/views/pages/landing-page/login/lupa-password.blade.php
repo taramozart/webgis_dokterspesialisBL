@@ -38,20 +38,28 @@
             <div class="h-screen flex flex-col items-center justify-center">
                 <div
                     class="text-center z-10 bg-[#84A584] pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[70%] rounded-xl drop-shadow-2xl">
-                    <div class="mb-7">
-                        <div class="mb-7 text-[30px] text-white font-medium">LUPA PASSWORD</div>
-                    </div>
-                    <div class="text-black">
-                        <div class="mb-[20px]">
-                            <input type="email" name="email" id="email" placeholder="Masukkan Email"
-                                class="mt-1 p-2 w-full border rounded-md border-[#566356] dark:focus:ring-[#6C806C] focus:ring-[#6C806C]"
-                                required autofocus>
+                    <form action="{{ route('lupa-password-user-post') }}" method="POST">
+                        @csrf
+                        <div class="mb-7">
+                            <div class="mb-7 text-[30px] text-white font-medium">LUPA PASSWORD</div>
                         </div>
-                    </div>
-                    <button onClick={handleFormSubmit}
-                        class="text-white w-[40%] bg-[#534B3C] hover:bg-[#566356] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 mt-2 focus:outline-none">
-                        Kirim Kode
-                    </button>
+                        <div class="text-black">
+                            <div class="mb-[20px]">
+                                <input type="email" name="email" id="email" placeholder="Masukkan Email"
+                                    class="mt-1 p-2 w-full border rounded-md border-[#566356] dark:focus:ring-[#6C806C] focus:ring-[#6C806C]"
+                                    required autofocus>
+                            </div>
+                        </div>
+                        @if (Session::has('error'))
+                            <div class="text-red-500">
+                                {{ Session::get('error') }}
+                            </div>
+                        @endif
+                        <button type="submit"
+                            class="text-white w-[40%] bg-[#534B3C] hover:bg-[#566356] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 mt-2 focus:outline-none">
+                            Kirim Kode
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

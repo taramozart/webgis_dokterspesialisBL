@@ -61,7 +61,7 @@
                                 </li>
                                 </li>
                                 <li>
-                                    <a href="{{ route('logout-dokter') }}"
+                                    <a href="{{ route('logout-user') }}"
                                         class="block px-4 py-2 text-base text-gray-700 hover:bg-white :hover:bg-gray-600 :text-gray-200 hover:text-black">Keluar</a>
                                 </li>
                             </ul>
@@ -128,6 +128,7 @@
                             aria-current="page">Profile Dokter</a>
                     </li>
                     {{--  --}}
+                    @if( Auth::user() !== null && Auth::user()->role_id !== 3) 
                     <li>
                         @php
                             $pengajuan = [
@@ -149,6 +150,30 @@
                           text-black md:text-white font-normal @endif"
                             aria-current="page">Pengajuan Dokter</a>
                     </li>
+                    @endif
+                    @if( Auth::user() === null) 
+                    <li>
+                        @php
+                            $pengajuan = [
+                                'dashboard-pengajuan-dokter',
+                                'pengajuan-tambah-lokasi',
+                                'pengajuan-ubah-lokasi',
+                                'pengajuan-hapus-lokasi',
+                                'cek-status-pengajuan',
+                                'user/login',
+                                'user/lupa-password',
+                                'user/kode-otp',
+                                'user/buat-akun',
+                                'user/password-baru',
+                            ];
+                        @endphp
+                        <a href="/dashboard-pengajuan-dokter"
+                            class="block py-2 px-3 text-xl md:p-0 md::text-blue-500 x @if (in_array(Request::path(), $pengajuan)) md:text-[#534B3C]  text-white font-bold bg-[#84A584] rounded md:bg-transparent
+                      @else
+                          text-black md:text-white font-normal @endif"
+                            aria-current="page">Pengajuan Dokter</a>
+                    </li>
+                    @endif
                     {{--  --}}
 
                 </ul>
