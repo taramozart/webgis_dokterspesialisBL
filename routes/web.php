@@ -77,7 +77,7 @@ Route::controller(GeneralPage::class)->group(function () {
     Route::post('/user/kode-otp', [AuthController::class, 'checkOtpPengguna'])->name('otp-password-user-post');
     Route::get('/user/password-baru', 'passwordBaruUser')->name('password-baru-user');
     Route::post('/user/password-baru', [AuthController::class, 'buatPasswordBaruPengguna'])->name('password-baru-user-post');
-    
+
 
     Route::middleware('admin')->group(function () {
         Route::get('/data-baru-dokter', MapAdminDataBaru::class)->name('data-baru-dokter');
@@ -100,10 +100,13 @@ Route::controller(GeneralPage::class)->group(function () {
 
     Route::middleware('dokter')->group(function () {
         Route::get('/dashboard-pengajuan-dokter', 'dashboardPengajuanDokter')->name('dashboard-pengajuan-dokter');
-        Route::get('/pengajuan-tambah-lokasi', 'tambahLokasiPengajuan');
-        Route::get('/pengajuan-ubah-lokasi', 'ubahLokasiPengajuan');
-        Route::get('/pengajuan-hapus-lokasi', 'hapusLokasiPengajuan');
-        Route::get('/cek-status-pengajuan', 'cekStatusPengajuan');
+        Route::get('/pengajuan-tambah-lokasi', [PengajuanDokterController::class, 'create_pengajuan_view'])->name('pengajuan-tambah-lokasi');
+        Route::post('/pengajuan-tambah-lokasi', [PengajuanDokterController::class, 'create_pengajuan_penambahan_dokter'])->name('pengajuan-tambah-lokasi-post');
+        Route::get('/pengajuan-ubah-lokasi', [PengajuanDokterController::class, 'create_pengajuan_perubahan_dokter_view'])->name('pengajuan-ubah-lokasi');
+        Route::post('/pengajuan-ubah-lokasi', [PengajuanDokterController::class, 'create_pengajuan_perubahan_dokter'])->name('pengajuan-ubah-lokasi-post');
+        Route::get('/pengajuan-hapus-lokasi', [PengajuanDokterController::class, 'create_pengajuan_hapus_lokasi_view'])->name('pengajuan-hapus-lokasi');
+        Route::post('/pengajuan-hapus-lokasi', [PengajuanDokterController::class, 'create_pengajuan_hapus_lokasi'])->name('pengajuan-hapus-lokasi-post');
+        Route::get('/cek-status-pengajuan', [PengajuanDokterController::class, 'get_all_pengajuan_dokter_by_pengguna'])->name('cek-status-pengajuan');
         Route::get('/ubah-profile', 'ubahProfile');
     });
 

@@ -15,210 +15,140 @@ use Illuminate\Support\Facades\Validator;
 
 class PengajuanDokterController extends Controller
 {
-    public function create_pengajuan_penambahan_dokter()
+    public function create_pengajuan_view()
+    {
+        $spesialisasi = spesialisasi::all();
+        $wilayah = wilayah::all();
+        return view('pages/landing-page/pengajuan-dokter/pengajuan-tambah-lokasi', compact(['spesialisasi', 'wilayah']));
+    }
+
+    public function create_pengajuan_penambahan_dokter(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            'pengguna_id' => 'required',
-            'jenis_pengajuan_id' => 'required',
-            'status_pengajuan_id' => 'required',
             'nama' => 'required',
-            'bidang_spesialisasi' => 'required',
+            'bidang_spesialisasi' => 'required|exists:spesialisasi,id',
             'nomor_sip' => 'required',
             'jadwal' => 'required',
-            'kecamatan' => 'required',
+            'kecamatan' => 'required|exists:wilayah,id',
+            'link_map' => 'required',
             'alamat' => 'required',
-            'gambar' => 'required',
+            'gambar' => 'required|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
+            return back()->withInput()->withErrors($validator->messages());
         }
 
-        try {
 
-            //Entitas
-            $pengguna=pengguna::where('id', request('pengguna_id'))->first();
-            $jenis_pengajuan = jenis_pengajuan::where('id', request('jenis_pengajuan_id'))->first();
-            $status_pengajuan = status_pengajuan::where('id', request('status_pengajuan_id'))->first();
-            $bidang_spesialisasi = spesialisasi::where('id', request('bidang_spesialisasi'))->first();
-            $kecamatan = wilayah::where('id', request('kecamatan'))->first();
+        pengajuan_dokter::create([
+            'pengguna_id' => auth()->user()->id,
+            'jenis_pengajuan_id' => 1,
+            'status_pengajuan_id' => 1,
+            'nama' => $request->nama,
+            'kecamatan' => $request->kecamatan,
+            'bidang_spesialisasi' => $request->bidang_spesialisasi,
+            'nomor_sip' => $request->nomor_sip,
+            'nomor_kontak' => $request->nomor_kontak,
+            'alamat' => $request->alamat,
+            'jadwal' => $request->jadwal,
+            'link_map' => $request->link_map,
+            'gambar' => $request->gambar->store("pengajuan_dokter"),
+        ]);
 
-            $data = new pengajuan_dokter();
-            $data->pengguna_ids()->associate($pengguna);
-            $data->jenis_pengajuan_ids()->associate($jenis_pengajuan);
-            $data->status_pengajuan_ids()->associate($status_pengajuan);
-            $data->nama = request('nama');
-            $data->bidang_spesialisasis()->associate($bidang_spesialisasi);
-            $data->nomor_sip = request('nomor_sip');
-            $data->nomor_kontak = request('nomor_kontak');
-            $data->jadwal = request('jadwal');
-            $data->kecamatans()->associate($kecamatan);
-            $data->alamat = request('alamat');
-            $data->link_map = request('link_map');
-            $data->save();
-            $id = $data->id;
-            $data->gambar = request('gambar')->store("pengajuan/$id");
-            $data->save();
-
-            $response = [
-                'status' => 200,
-                'data' => $data,
-                'message' => 'Berhasil menambahkan pengajuan dokter'
-            ];
-            return response()->json($response, 200);
-
-        } catch (\Exception $e) {
-            $response = [
-                'status' => 400,
-                'message' => $e->getMessage()
-            ];
-            return response()->json($response, 400);
-        }
+        return redirect()->route('dashboard-pengajuan-dokter');
     }
 
-    public function create_pengajuan_perubahan_dokter()
+    public function create_pengajuan_perubahan_dokter_view()
+    {
+        $kecamatan = wilayah::all();
+        $spesialisasi = spesialisasi::all();
+        return view('pages/landing-page/pengajuan-dokter/pengajuan-ubah-lokasi', compact(['kecamatan', 'spesialisasi']));
+    }
+
+    public function create_pengajuan_perubahan_dokter(Request $request)
     {
         $validator = Validator::make(request()->all(), [
             //Pengajuan Sebelumnya
             'nama_sebelumnya' => 'required',
-            'bidang_spesialisasi_sebelumnya' => 'required',
-            // 'nomor_sip_sebelumnya' => 'required',
-            'jadwal_sebelumnya' => 'required',
             'kecamatan_sebelumnya' => 'required',
+            'bidang_spesialisasi_sebelumnya' => 'required',
+            'nomor_kontak_sebelumnya' => 'required',
             'alamat_sebelumnya' => 'required',
-
-            //Pengajuan
-            'pengguna_id' => 'required',
-            'jenis_pengajuan_id' => 'required',
-            'status_pengajuan_id' => 'required',
-            'nama' => 'required',
-            'bidang_spesialisasi' => 'required',
-            'nomor_sip' => 'required',
-            'jadwal' => 'required',
-            'kecamatan' => 'required',
-            'alamat' => 'required',
-            'gambar' => 'required',
         ]);
 
         if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
+            return back()->withInput()->withErrors($validator->messages());
         }
 
-        try {
-            //Entitas
-            $pengguna=pengguna::where('id', request('pengguna_id'))->first();
-            $jenis_pengajuan = jenis_pengajuan::where('id', request('jenis_pengajuan_id'))->first();
-            $status_pengajuan = status_pengajuan::where('id', request('status_pengajuan_id'))->first();
-            $bidang_spesialisasi = spesialisasi::where('id', request('bidang_spesialisasi'))->first();
-            $bidang_spesialisasi_sebelumnya = spesialisasi::where('id', request('bidang_spesialisasi_sebelumnya'))->first();
-            $kecamatan = wilayah::where('id', request('kecamatan'))->first();
-            $kecamatan_sebelumnya = wilayah::where('id', request('kecamatan_sebelumnya'))->first();
+        $sebelum = pengajuan_dokter_sebelumnya::create([
+            'nama' => $request->nama_sebelumnya,
+            'bidang_spesialisasi' => $request->bidang_spesialisasi_sebelumnya,
+            'kecamatan' => $request->kecamatan_sebelumnya,
+            'nomor_kontak' => $request->nomor_kontak_sebelumnya,
+            'alamat' => $request->alamat_sebelumnya,
+        ]);
 
-            //Data Sebelumnya
-            $data_sebelumnya = new pengajuan_dokter_sebelumnya();
-            $data_sebelumnya->nama = request('nama_sebelumnya');
-            $data_sebelumnya->bidang_spesialisasis()->associate($bidang_spesialisasi_sebelumnya);
-            // $data_sebelumnya->nomor_sip = request('nomor_sip_sebelumnya');
-            $data_sebelumnya->nomor_kontak = request('nomor_kontak_sebelumnya');
-            $data_sebelumnya->jadwal = request('jadwal_sebelumnya');
-            $data_sebelumnya->kecamatans()->associate($kecamatan_sebelumnya);
-            $data_sebelumnya->alamat = request('alamat_sebelumnya');
-            $data_sebelumnya->save();
 
-            //Data Baru
-            $data = new pengajuan_dokter();
-            $data->pengajuan_dokter_sebelumnya_ids()->associate($data_sebelumnya);
-            $data->pengguna_ids()->associate($pengguna);
-            $data->jenis_pengajuan_ids()->associate($jenis_pengajuan);
-            $data->status_pengajuan_id()->associate($status_pengajuan);
-            $data->nama = request('nama');
-            $data->bidang_spesialisasis()->associate($bidang_spesialisasi);
-            $data->nomor_kontak = request('nomor_kontak');
-            $data->nomor_sip = request('nomor_sip');
-            $data->jadwal = request('jadwal');
-            $data->kecamatans()->associate($kecamatan);
-            $data->alamat = request('alamat');
-            $data->link_map = request('link_map');
-            $data->save();
-            $id = $data->id;
-            $data->gambar = request('gambar')->store("pengajuan/$id");
-            $data->save();
+        pengajuan_dokter::create([
+            'pengguna_id' => auth()->user()->id,
+            'pengajuan_dokter_sebelumnya_id' => $sebelum->id,
+            'jenis_pengajuan_id' => 2,
+            'status_pengajuan_id' => 1,
+            'nama' => $request->nama,
+            'kecamatan' => $request->kecamatan,
+            'bidang_spesialisasi' => $request->bidang_spesialisasi,
+            'nomor_sip' => $request->nomor_sip,
+            'nomor_kontak' => $request->nomor_kontak,
+            'alamat' => $request->alamat,
+            'jadwal' => $request->jadwal,
+            'link_map' => $request->link_map,
+        ]);
 
-            $response = [
-                'status' => 200,
-                'data' => $data,
-                'message' => 'Berhasil menambahkan pengajuan perubahan dokter'
-            ];
-            return response()->json($response, 200);
-
-        } catch (\Exception $e) {
-            $response = [
-                'status' => 400,
-                'message' => $e->getMessage()
-            ];
-            return response()->json($response, 400);
+        if ($request->gambar !== null) {
+            $gambar = $request->gambar->store("pengajuan_dokter");
+            $sebelum->update([
+                'gambar' => $gambar
+            ]);
         }
+
+
+        return redirect()->route('dashboard-pengajuan-dokter');
+
     }
 
-    public function create_pengajuan_penghapusan_dokter()
+    public function create_pengajuan_hapus_lokasi_view()
+    {
+        $spesialisasi = spesialisasi::all();
+        $kecamatan = wilayah::all();
+        return view('pages/landing-page/pengajuan-dokter/pengajuan-hapus-lokasi', compact(['kecamatan', 'spesialisasi']));
+    }
+
+    public function create_pengajuan_hapus_lokasi(Request $request)
     {
         $validator = Validator::make(request()->all(), [
-            'pengguna_id' => 'required',
-            'jenis_pengajuan_id' => 'required',
-            'status_pengajuan_id' => 'required',
             'nama' => 'required',
-            'bidang_spesialisasi' => 'required',
-            'kecamatan' => 'required',
+            'bidang_spesialisasi' => 'required|exists:spesialisasi,id',
+            'kecamatan' => 'required|exists:wilayah,id',
             'alamat' => 'required',
         ]);
 
         if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
+            return back()->withInput()->withErrors($validator->messages());
         }
 
-        try {
+        pengajuan_dokter::create([
+            'pengguna_id' => auth()->user()->id,
+            'jenis_pengajuan_id' => 3,
+            'status_pengajuan_id' => 1,
+            'nama' => $request->nama,
+            'kecamatan' => $request->kecamatan,
+            'bidang_spesialisasi' => $request->bidang_spesialisasi,
+            'nomor_kontak' => $request->nomor_kontak,
+            'alamat' => $request->alamat,
+        ]);
 
-            //Entitas
-            $pengguna=pengguna::where('id', request('pengguna_id'))->first();
-            $jenis_pengajuan = jenis_pengajuan::where('id', request('jenis_pengajuan_id'))->first();
-            $status_pengajuan = status_pengajuan::where('id', request('status_pengajuan_id'))->first();
-            $bidang_spesialisasi = spesialisasi::where('id', request('bidang_spesialisasi'))->first();
-            $kecamatan = wilayah::where('id', request('kecamatan'))->first();
+        return redirect()->route('dashboard-pengajuan-dokter');
 
-            $data = new pengajuan_dokter();
-            $data->pengguna_ids()->associate($pengguna);
-            $data->jenis_pengajuan_ids()->associate($jenis_pengajuan);
-            $data->status_pengajuan_ids()->associate($status_pengajuan);
-            $data->nama = request('nama');
-            $data->nomor_kontak = request('nomor_kontak');
-            $data->bidang_spesialisasis()->associate($bidang_spesialisasi);
-            $data->kecamatans()->associate($kecamatan);
-            $data->alamat = request('alamat');
-            $data->save();
-
-            $response = [
-                'status' => 200,
-                'data' => $data,
-                'message' => 'Berhasil menambahkan pengajuan penghapusan dokter'
-            ];
-            return response()->json($response, 200);
-
-        } catch (\Exception $e) {
-            $response = [
-                'status' => 400,
-                'message' => $e->getMessage()
-            ];
-            return response()->json($response, 400);
-        }
     }
 
     public function get_all_pengajuan_dokter_by_status()
@@ -246,25 +176,11 @@ class PengajuanDokterController extends Controller
 
     public function get_all_pengajuan_dokter_by_pengguna()
     {
-        $validator = Validator::make(request()->all(), [
-            'pengguna_id' => 'required',
-        ]);
+        
+        $data = pengajuan_dokter::with('status_pengajuan_id', 'bidang_spesialisasis')->where('pengguna_id', auth()->user()->id)->paginate(10)->toArray();
 
-        if ($validator->fails()) {
-            $response = [
-                'message' => $validator->errors()->first()
-            ];
-            return response()->json($response, 400);
-        }
+        return view('pages/landing-page/pengajuan-dokter/cek-status-pengajuan', compact('data'));
 
-        $data = pengajuan_dokter::with('status_pengajuan_ids', 'bidang_spesialisasis')->where('pengguna_id', request('pengguna_id'))->get();
-
-        $response = [
-            'status' => 200,
-            'data' => $data,
-            'message' => 'Berhasil menampilkan seluruh pengajuan dokter'
-        ];
-        return response()->json($response, 200);
     }
 
     public function get_one_pengajuan_dokter()

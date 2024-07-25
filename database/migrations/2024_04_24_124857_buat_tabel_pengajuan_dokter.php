@@ -16,13 +16,12 @@ return new class extends Migration
             $table->foreignUuid('pengguna_id')->references('id')->on('pengguna');
             $table->foreignId('jenis_pengajuan_id')->references('id')->on('jenis_pengajuan');
             $table->foreignId('status_pengajuan_id')->references('id')->on('status_pengajuan');
-            $table->foreignUuid('pengajuan_dokter_sebelumnya_id')->nullable();
-            $table->string('nama');
-            $table->foreignUuid('bidang_spesialisasi')->references('id')->on('spesialisasi');
+            $table->string('nama')->nullable();
+            $table->foreignUuid('bidang_spesialisasi')->nullable();
             $table->string('nomor_kontak')->nullable();
             $table->string('nomor_sip')->nullable();
-            $table->string('jadwal');
-            $table->foreignUuid('kecamatan')->references('id')->on('wilayah');
+            $table->string('jadwal')->nullable();
+            $table->foreignUuid('kecamatan')->nullable();
             $table->string('alamat')->nullable();
             $table->string('link_map')->nullable();
             $table->string('gambar')->nullable();

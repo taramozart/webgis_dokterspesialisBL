@@ -27,56 +27,80 @@
         </div>
         <div class="text-[21px] font-semibold flex justify-start w-full">Data yang sudah ada sebelumnya</div>
         <div class="formm bg-white rounded-lg p-4 w-full flex flex-col gap-3">
-            <div class="wrap w-full md:flex-row flex-col  flex gap-3">
-                <div class="md:w-1/2 w-full">
-                    <label For="name" class="text-black font-bold">Nama Dokter</label>
-                    <input type="text" id="name"
-                        class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 w-full bg-transparent"
-                        placeholder="Masukkan Nama" required />
-                </div>
-                <div class="md:w-1/2 w-full">
-                    <label For="kecamatan" class="text-black font-bold">Kecamatan</label>
-                    <input type="text" id="kecamatan"
-                        class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 w-full bg-transparent"
-                        placeholder="Masukkan Kecamatan" required />
-                </div>
-            </div>
-            {{--  --}}
-            <div class="wrap w-full md:flex-row flex-col  flex gap-3">
-                <div class="md:w-1/2 w-full flex flex-col gap-3">
-                    <div class="wrap ">
-                        <label For="bidang" class="text-black font-bold">Bidang Spesialisasi</label>
-                        <input type="text" id="bidang"
+            <form action="{{ route('pengajuan-hapus-lokasi-post') }}" method="POST">
+                @csrf
+                <div class="wrap w-full md:flex-row flex-col  flex gap-3">
+                    <div class="md:w-1/2 w-full">
+                        <label For="name" class="text-black font-bold">Nama Dokter</label>
+                        <input type="text" id="name" name="nama"
                             class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 w-full bg-transparent"
-                            placeholder="Masukkan Bidang Spesialisasi" required />
+                            placeholder="Masukkan Nama" required />
+                        @error('nama')
+                            <div class="text-red-400 text-[12px] md:[text-14px]">{{ $message }}</div>
+                        @enderror
                     </div>
-                    <div class="wrap">
-                        <label For="kontak" class="text-black font-bold">Nomer Kontak</label>
-                        <input type="text" id="kontak"
-                            class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 w-full bg-transparent"
-                            placeholder="Masukkan Kontak" required />
-                    </div>
-                </div>
-                <div class="md:w-1/2 w-full">
-                    <label For="alamat" class="text-black font-bold">Alamat</label>
-                    <textarea name="alamat" id="alamat" class="w-full h-[80%] p-2 rounded-md"></textarea>
-                </div>
-            </div>
-            {{--  --}}
-            <div class="wrap flex justify-center mt-3">
-                <div class="df flex bg-[#6C806C] p-3 rounded items-center text-white gap-3">
-                    <div class="">
-                        Apakah anda yakin ingin menghapus data yang diinputkan diatas?
-                    </div>
-                    <div class="">
-                        <input type="checkbox">
+                    <div class="md:w-1/2 w-full">
+                        <label For="kecamatan" class="text-black font-bold">Kecamatan</label>
+                        <select name="kecamatan" id="kecamatan" name="kecamatan"
+                            class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 p-2 w-full bg-transparent">
+                            <option disabled selected>Pilih Kecamatan</option>
+                            @foreach ($kecamatan as $item)
+                                <option value="{{ $item->id }}">{{ $item->keterangan }}</option>
+                            @endforeach
+                        </select>
+                        @error('kecamatan')
+                            <div class="text-red-400 text-[12px] md:[text-14px]">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
-            </div>
-            {{-- btn --}}
-            <div class="btns flex w-full justify-end">
-                <button class="bg-[#6C806C] hover:bg-[#596959] text-white py-2 rounded-lg px-8">Kirim</button>
-            </div>
+                {{--  --}}
+                <div class="wrap w-full md:flex-row flex-col  flex gap-3">
+                    <div class="md:w-1/2 w-full flex flex-col gap-3">
+                        <div class="wrap ">
+                            <label For="bidang" class="text-black font-bold">Bidang Spesialisasi</label>
+                            <select name="bidang_spesialisasi" id="bidang"
+                                class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 p-2 w-full bg-transparent">
+                                <option disabled selected>Pilih Bidang Spesialisasi</option>
+                                @foreach ($spesialisasi as $item)
+                                    <option value="{{ $item->id }}">{{ $item->keterangan }}</option>
+                                @endforeach
+                            </select>
+                            @error('bidang_spesialisasi')
+                                <div class="text-red-400 text-[12px] md:[text-14px]">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="wrap">
+                            <label For="kontak" class="text-black font-bold">Nomer Kontak</label>
+                            <input type="text" id="kontak"
+                                class="border border-[#297785] text-gray-900 text-sm rounded-md focus:ring-[#297785] focus:border-[#297785] px-2 w-full bg-transparent"
+                                placeholder="Masukkan Kontak" required />
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 w-full">
+                        <label For="alamat" class="text-black font-bold">Alamat</label>
+                        <textarea name="alamat" id="alamat" class="w-full h-[80%] p-2 rounded-md"></textarea>
+                        @error('alamat')
+                            <div class="text-red-400 text-[12px] md:[text-14px]">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+                {{--  --}}
+                <div class="wrap flex justify-center mt-3">
+                    <div class="df flex bg-[#6C806C] p-3 rounded items-center text-white gap-3">
+                        <div class="">
+                            Apakah anda yakin ingin menghapus data yang diinputkan diatas?
+                        </div>
+                        <div class="">
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                </div>
+                {{-- btn --}}
+                <div class="btns flex w-full justify-end">
+                    <button type="submit"
+                        class="bg-[#6C806C] hover:bg-[#596959] text-white py-2 rounded-lg px-8">Kirim</button>
+                </div>
+            </form>
         </div>
     </div>
 

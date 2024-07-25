@@ -55,7 +55,7 @@
                         @else
                             <ul class="py-2" aria-labelledby="user-menu-button">
                                 <li>
-                                    <a href="/ubah-profile"
+                                    <a href="/ubah-profile-user"
                                         class="block px-4 py-2 text-base text-gray-700 hover:bg-white :hover:bg-gray-600 :text-gray-200 hover:text-black">User
                                         Profile</a>
                                 </li>

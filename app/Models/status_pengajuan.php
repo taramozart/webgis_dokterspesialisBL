@@ -10,6 +10,8 @@ class status_pengajuan extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = 'status_pengajuan';
+
     protected $fillable = [
         'keterangan',
     ];

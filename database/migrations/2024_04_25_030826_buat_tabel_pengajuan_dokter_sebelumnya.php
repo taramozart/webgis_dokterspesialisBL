@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('nama');
             $table->foreignUuid('bidang_spesialisasi')->references('id')->on('spesialisasi');
             $table->string('nomor_kontak')->nullable();
-            $table->string('nomor_sip');
-            $table->string('jadwal');
             $table->foreignUuid('kecamatan')->references('id')->on('wilayah');
             $table->string('alamat');
             $table->timestamps();
+        });
+
+        Schema::create('pengajuan_dokter', function (Blueprint $table) {
+            $table->foreignUuid('pengajuan_dokter_sebelumnya_id')->nullable()->constrained('pengajuan_dokter_sebelumnya');
         });
     }
 

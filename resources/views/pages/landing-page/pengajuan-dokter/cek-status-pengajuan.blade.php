@@ -45,48 +45,25 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($data['data'] as $item)
                     <tr class="bg-white border-b border-[#EEE7DA] hover:bg-gray-50 text-black hover:text-black">
                         <td class="px-3 py-3">
-                            1
+                            {{ $loop->iteration }}
                         </td>
                         <td class="px-3 py-3">
-                            Dr. Muhammad Saiful, Sp.PD
+                            {{ $item['nama'] }}
                         </td>
                         <td class="px-3 py-3">
-                            23-04-2024
+                            @php
+                                $item['created_at'] = Carbon\Carbon::parse($item['created_at'])->translatedFormat('l / j F Y');
+                            @endphp
+                            {{ $item['created_at'] }}
                         </td>
                         <td class="px-3 py-3">
-                            Diproses
+                            {{ $item['status_pengajuan_id']['keterangan'] }}
                         </td>
                     </tr>
-                    <tr class="bg-white border-b border-[#EEE7DA] hover:bg-gray-50 text-black hover:text-black">
-                        <td class="px-3 py-3">
-                            2
-                        </td>
-                        <td class="px-3 py-3">
-                            Dr. Muhammad Saiful, Sp.PD
-                        </td>
-                        <td class="px-3 py-3">
-                            23-04-2024
-                        </td>
-                        <td class="px-3 py-3">
-                            Diterima
-                        </td>
-                    </tr>
-                    <tr class="bg-white border-b border-[#EEE7DA] hover:bg-gray-50 text-black hover:text-black">
-                        <td class="px-3 py-3">
-                            2
-                        </td>
-                        <td class="px-3 py-3">
-                            Dr. Muhammad Saiful, Sp.PD
-                        </td>
-                        <td class="px-3 py-3">
-                            23-04-2024
-                        </td>
-                        <td class="px-3 py-3">
-                            Ditolak
-                        </td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

@@ -10,6 +10,8 @@ class jenis_pengajuan extends Model
 {
     use HasFactory,HasUuids;
 
+    protected $table = 'jenis_pengajuan';
+
     protected $fillable = [
         'keterangan',
     ];

@@ -33,17 +33,17 @@ class pengajuan_dokter extends Model
         return $this->belongsTo(pengguna::class, 'pengguna_id', 'id');
     }
 
-    public function pengajuan_dokter_sebelumnya_ids()
+    public function pengajuan_dokter_sebelumnya_id()
     {
         return $this->belongsTo(pengajuan_dokter_sebelumnya::class, 'pengajuan_dokter_sebelumnya_id', 'id');
     }
     
-    public function jenis_pengajuan_ids()
+    public function jenis_pengajuan_id()
     {
         return $this->belongsTo(jenis_pengajuan::class, 'jenis_pengajuan_id', 'id');
     }
     
-    public function status_pengajuan_ids()
+    public function status_pengajuan_id()
     {
         return $this->belongsTo(status_pengajuan::class, 'status_pengajuan_id', 'id');
     }

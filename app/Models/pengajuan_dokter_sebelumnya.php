@@ -16,8 +16,6 @@ class pengajuan_dokter_sebelumnya extends Model
         'nama',
         'bidang_spesialisasi',
         'nomor_kontak',
-        'nomor_sip',
-        'jadwal',
         'kecamatan',
         'alamat',
     ];
